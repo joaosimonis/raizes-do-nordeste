@@ -1,9 +1,22 @@
-body {
+:root {
+  --color-white: #ffffff;
+  --color-white-rgb: 255 255 255;
+
+  --color-ink-900: #191919;
+  --color-ink-950: #171717;
+
+  --color-stone-500: #5d5750;
+  --color-stone-600: #544f49;
+
+  --color-sand-100: #f7f1e8;
+
+  --color-earth-700: #6a4a2f;
+}
+
+* {
   margin: 0;
 }
 
-.home-page {
+body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
