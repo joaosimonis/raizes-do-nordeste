@@ -120,20 +120,4 @@
       font-weight: 700;
     }
   }
-
-  @media (min-width: 768px) {
-    .unit-card {
-      gap: 20px;
-      padding: 20px;
-
-      &__media {
-        width: 108px !important;
-        height: 108px !important;
-      }
-
-      &__title {
-        font-size: 1.15rem;
-      }
-    }
-  }
 </style>
