@@ -1,17 +1,17 @@
 <template>
   <v-card
-    class="product-hero-card"
+    class="product-card"
     elevation="0"
     rounded="xl"
     variant="outlined"
   >
-    <h2 class="product-hero-card__title">{{ item.name }}</h2>
+    <h2 class="product-card__title">{{ item.name }}</h2>
 
     <v-avatar
-      class="product-hero-card__image"
+      class="product-card__image"
       color="var(--color-sand-100)"
       rounded="lg"
-      size="128"
+      size="96"
     >
       <v-icon color="var(--color-earth-700)" icon="mdi-food-outline" size="56" />
     </v-avatar>
@@ -27,7 +27,7 @@
 </script>
 
 <style scoped lang="scss">
-  .product-hero-card {
+  .product-card {
     display: flex;
     flex-direction: column;
     gap: 20px;

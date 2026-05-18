@@ -38,20 +38,10 @@
         v-for="item in filteredMenuItems"
         :key="item.id"
         :item="item"
-        @add="addItemToCart"
+        @add="openProductDetails"
         @open="openProductDetails"
       />
     </div>
-
-    <v-btn
-      class="menu-page__cart"
-      color="secondary"
-      rounded="xl"
-      size="x-large"
-      text="Ver carrinho (0 itens) - R$ 0,00"
-      variant="flat"
-      @click="goToCart"
-    />
   </v-container>
 </template>
 
@@ -74,21 +64,8 @@
     })
   }
 
-  const addItemToCart = (item: MenuItem) => {
-    menuStore.setSelectedMenuItem(item.id)
-
-    router.push({
-      name: 'product-details',
-      query: { item: item.id },
-    })
-  }
-
   const goBack = () => {
     router.push({ name: 'select-unit' })
-  }
-
-  const goToCart = () => {
-    router.push({ name: 'cart' })
   }
 </script>
 
@@ -97,7 +74,7 @@
     min-height: 100vh;
     max-width: 860px;
     margin: 0 auto;
-    padding: 16px 16px 96px;
+    padding: 16px;
 
     &__header {
       margin-bottom: 24px;
@@ -125,14 +102,6 @@
     &__list {
       display: grid;
       gap: 16px;
-    }
-
-    &__cart {
-      width: 100%;
-      margin-top: 24px;
-      text-transform: none;
-      letter-spacing: 0;
-      font-weight: 700;
     }
   }
 </style>
