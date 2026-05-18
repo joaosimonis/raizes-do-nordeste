@@ -14,3 +14,9 @@ export interface MenuItem {
   unitIds: string[]
   image?: string
 }
+
+export interface MenuItemSelectionState {
+  itemId: string | null
+  quantity: number
+  notes: string
+}
