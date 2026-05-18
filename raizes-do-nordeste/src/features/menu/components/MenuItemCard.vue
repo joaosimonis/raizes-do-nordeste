@@ -84,24 +84,4 @@
       font-weight: 700;
     }
   }
-
-  @media (min-width: 768px) {
-    .menu-item-card {
-      gap: 20px;
-      padding: 20px;
-
-      &__media {
-        width: 96px !important;
-        height: 96px !important;
-      }
-
-      &__title {
-        font-size: 1.1rem;
-      }
-
-      &__price {
-        font-size: 2.3rem;
-      }
-    }
-  }
 </style>
