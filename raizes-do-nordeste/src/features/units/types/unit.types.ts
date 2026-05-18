@@ -7,6 +7,7 @@ export type KitchenType = 'completa' | 'reduzida'
 export interface Unit {
   id: string
   name: string
+  address: string
   city: string
   state: string
   neighborhood: string
