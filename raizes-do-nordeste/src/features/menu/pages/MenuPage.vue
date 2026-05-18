@@ -1,5 +1,138 @@
 <template>
-  <v-container>
-    <h1>Aqui é a pagina de cardapio da unidade</h1>
+  <v-container class="menu-page">
+    <AppPageHeader
+      class="menu-page__header"
+      :subtitle="selectedUnit?.name ?? 'Selecione uma unidade'"
+      show-back-button
+      title="Raízes do Nordeste"
+      @back="goBack"
+    />
+
+    <v-text-field
+      v-model="search"
+      class="menu-page__search"
+      clearable
+      density="comfortable"
+      hide-details
+      placeholder="Buscar produto"
+      prepend-inner-icon="mdi-magnify"
+      rounded="lg"
+      variant="outlined"
+    />
+
+    <div class="menu-page__categories">
+      <v-btn
+        v-for="category in categoryOptions"
+        :key="category.id"
+        :variant="activeCategory === category.id ? 'flat' : 'outlined'"
+        class="menu-page__category"
+        color="primary"
+        rounded="lg"
+        :text="category.label"
+        @click="setActiveCategory(category.id)"
+      />
+    </div>
+
+    <div class="menu-page__list">
+      <MenuItemCard
+        v-for="item in filteredMenuItems"
+        :key="item.id"
+        :item="item"
+        @add="addItemToCart"
+        @open="openProductDetails"
+      />
+    </div>
+
+    <v-btn
+      class="menu-page__cart"
+      color="secondary"
+      rounded="xl"
+      size="x-large"
+      text="Ver carrinho (0 itens) - R$ 0,00"
+      variant="flat"
+      @click="goToCart"
+    />
   </v-container>
 </template>
+
+<script setup lang="ts">
+  import type { MenuItem } from '@/features/menu/types/menu.types'
+  import { useRouter } from 'vue-router'
+  import MenuItemCard from '@/features/menu/components/MenuItemCard.vue'
+  import { useMenu } from '@/features/menu/composables/useMenu'
+  import AppPageHeader from '@/shared/components/AppPageHeader.vue'
+
+  const router = useRouter()
+  const { activeCategory, categoryOptions, filteredMenuItems, menuStore, search, selectedUnit, setActiveCategory } = useMenu()
+
+  const openProductDetails = (item: MenuItem) => {
+    menuStore.setSelectedMenuItem(item.id)
+
+    router.push({
+      name: 'product-details',
+      query: { item: item.id },
+    })
+  }
+
+  const addItemToCart = (item: MenuItem) => {
+    menuStore.setSelectedMenuItem(item.id)
+
+    router.push({
+      name: 'product-details',
+      query: { item: item.id },
+    })
+  }
+
+  const goBack = () => {
+    router.push({ name: 'select-unit' })
+  }
+
+  const goToCart = () => {
+    router.push({ name: 'cart' })
+  }
+</script>
+
+<style scoped lang="scss">
+  .menu-page {
+    min-height: 100vh;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 16px 16px 96px;
+
+    &__header {
+      margin-bottom: 24px;
+    }
+
+    &__search {
+      margin-bottom: 20px;
+    }
+
+    &__categories {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    &__category {
+      flex-shrink: 0;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+
+    &__list {
+      display: grid;
+      gap: 16px;
+    }
+
+    &__cart {
+      width: 100%;
+      margin-top: 24px;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+  }
+</style>

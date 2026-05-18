@@ -1,9 +1,10 @@
 <template>
   <v-container class="select-unit-page">
-    <div class="select-unit-page__header">
-      <h1 class="select-unit-page__title">Raízes do Nordeste</h1>
-      <p class="select-unit-page__subtitle">Escolha a unidade mais próxima</p>
-    </div>
+    <AppPageHeader
+      class="select-unit-page__header"
+      subtitle="Escolha a unidade mais próxima"
+      title="Raízes do Nordeste"
+    />
 
     <v-text-field
       v-model="search"
@@ -33,6 +34,7 @@
   import { useRouter } from 'vue-router'
   import UnitCard from '@/features/units/components/UnitCard.vue'
   import { useUnits } from '@/features/units/composables/useUnits'
+  import AppPageHeader from '@/shared/components/AppPageHeader.vue'
 
   const router = useRouter()
   const { filteredUnits, search, unitsStore } = useUnits()
@@ -55,24 +57,7 @@
     padding: 16px;
 
     &__header {
-      display: grid;
-      gap: 18px;
       margin-bottom: 24px;
-    }
-
-    &__title {
-      margin: 0;
-      color: var(--color-ink-950);
-      font-size: 2rem;
-      line-height: 1.05;
-      font-weight: 700;
-    }
-
-    &__subtitle {
-      margin: 12px 0 0;
-      color: var(--color-stone-600);
-      font-size: 1rem;
-      line-height: 1.35;
     }
 
     &__search {
