@@ -77,15 +77,23 @@
 	>
 		{{ snackbarMessage }}
 	</v-snackbar>
+
+	<RemoveCartItemDialog
+		v-model="isRemoveDialogVisible"
+		:item-name="pendingRemoveItemName"
+		@cancel="cancelRemoveItem"
+		@confirm="confirmRemoveItem"
+	/>
 </template>
 
 <script setup lang="ts">
 import CartItemCard from "@/features/cart/components/CartItemCard.vue";
+import RemoveCartItemDialog from "@/features/cart/components/RemoveCartItemDialog.vue";
 import { useCart } from "@/features/cart/composables/useCart";
 import AppHeader from "@/shared/components/AppHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
-const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, handleRemoveItem, hasItems, incrementItemQuantity, isSnackbarVisible, items, snackbarMessage, totals } = useCart();
+const { cancelRemoveItem, confirmRemoveItem, decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, handleRemoveItem, hasItems, incrementItemQuantity, isRemoveDialogVisible, isSnackbarVisible, items, pendingRemoveItemName, snackbarMessage, totals } = useCart();
 </script>
 
 <style scoped lang="scss">
@@ -102,19 +110,19 @@ const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, han
 	&__content {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 22px;
 	}
 
 	&__list {
 		display: grid;
-		gap: 16px;
+		gap: 14px;
 	}
 
 	&__summary {
 		display: flex;
 		flex-direction: column;
-		gap: 18px;
-		padding: 20px;
+		gap: 16px;
+		padding: 18px;
 		border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
 	}
 
@@ -127,13 +135,14 @@ const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, han
 	}
 
 	&__summary-line {
-		font-size: 1.15rem;
+		font-size: 1.08rem;
 		line-height: 1.25;
 		font-weight: 500;
 	}
 
 	&__summary-total {
-		font-size: 1.95rem;
+		padding-top: 4px;
+		font-size: 1.85rem;
 		line-height: 1.05;
 		font-weight: 800;
 	}

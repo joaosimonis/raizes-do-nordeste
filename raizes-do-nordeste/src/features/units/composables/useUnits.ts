@@ -15,9 +15,7 @@ export function useUnits() {
 		}
 
 		return units.value.filter((unit) => {
-			const searchTarget = [unit.name, unit.address, unit.neighborhood, unit.city, unit.state]
-				.join(" ")
-				.toLowerCase();
+			const searchTarget = [unit.name, unit.address, unit.neighborhood, unit.city, unit.state].join(" ").toLowerCase();
 
 			return searchTarget.includes(query);
 		});

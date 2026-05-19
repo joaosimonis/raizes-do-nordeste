@@ -11,6 +11,9 @@ export const useCart = () => {
 	const { items, totals } = storeToRefs(cartStore);
 	const isSnackbarVisible = ref(false);
 	const snackbarMessage = ref("");
+	const isRemoveDialogVisible = ref(false);
+	const pendingRemoveItemId = ref<string | null>(null);
+	const pendingRemoveItemName = ref("");
 
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
@@ -54,7 +57,31 @@ export const useCart = () => {
 	};
 
 	const handleRemoveItem = (cartItemId: string) => {
-		const removedItemName = removeItem(cartItemId);
+		const item = items.value.find((entry) => entry.id === cartItemId);
+
+		if (!item) {
+			return;
+		}
+
+		pendingRemoveItemId.value = cartItemId;
+		pendingRemoveItemName.value = item.name;
+		isRemoveDialogVisible.value = true;
+	};
+
+	const cancelRemoveItem = () => {
+		pendingRemoveItemId.value = null;
+		pendingRemoveItemName.value = "";
+		isRemoveDialogVisible.value = false;
+	};
+
+	const confirmRemoveItem = () => {
+		if (!pendingRemoveItemId.value) {
+			return;
+		}
+
+		const removedItemName = removeItem(pendingRemoveItemId.value);
+
+		cancelRemoveItem();
 
 		if (!removedItemName) {
 			return;
@@ -73,6 +100,8 @@ export const useCart = () => {
 	};
 
 	return {
+		cancelRemoveItem,
+		confirmRemoveItem,
 		decrementItemQuantity,
 		deliveryFee,
 		finalTotal,
@@ -81,8 +110,10 @@ export const useCart = () => {
 		handleRemoveItem,
 		hasItems,
 		incrementItemQuantity,
+		isRemoveDialogVisible,
 		isSnackbarVisible,
 		items,
+		pendingRemoveItemName,
 		removeItem,
 		snackbarMessage,
 		totals,

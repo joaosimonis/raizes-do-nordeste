@@ -6,9 +6,7 @@ export const useOrdersStore = defineStore("orders", () => {
 	const orders = ref(mockOrders);
 	const currentOrderId = ref<string | null>(mockCurrentOrder.id);
 
-	const currentOrder = computed(
-		() => orders.value.find((order) => order.id === currentOrderId.value) ?? null,
-	);
+	const currentOrder = computed(() => orders.value.find((order) => order.id === currentOrderId.value) ?? null);
 
 	const getOrderById = (orderId: string) => orders.value.find((order) => order.id === orderId) ?? null;
 

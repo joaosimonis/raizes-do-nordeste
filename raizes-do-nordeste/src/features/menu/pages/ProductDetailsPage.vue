@@ -68,7 +68,7 @@
 		<v-snackbar
 			v-model="isSnackbarVisible"
 			color="success"
-			location="top"
+			location="bottom"
 			rounded="pill"
 			timeout="3600"
 		>

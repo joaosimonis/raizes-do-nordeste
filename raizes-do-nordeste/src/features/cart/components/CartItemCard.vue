@@ -67,14 +67,14 @@ defineEmits<{
 <style scoped lang="scss">
 .cart-item-card {
 	display: flex;
-	gap: 16px;
+	gap: 14px;
 	align-items: center;
-	padding: 16px;
+	padding: 14px;
 	border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
 
 	&__media {
-		width: 88px;
-		height: 88px;
+		width: 84px;
+		height: 84px;
 		overflow: hidden;
 		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.12);
 		border-radius: 12px;
@@ -90,13 +90,13 @@ defineEmits<{
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 		min-width: 0;
 	}
 
 	&__top {
 		display: flex;
-		gap: 12px;
+		gap: 10px;
 		align-items: flex-start;
 		justify-content: space-between;
 	}
@@ -105,26 +105,26 @@ defineEmits<{
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		gap: 6px;
+		gap: 4px;
 		min-width: 0;
 	}
 
 	&__name {
 		color: var(--color-ink-950);
-		font-size: 1rem;
+		font-size: 0.98rem;
 		line-height: 1.2;
 		font-weight: 700;
 	}
 
 	&__notes {
 		color: var(--color-stone-600);
-		font-size: 0.875rem;
+		font-size: 0.82rem;
 		line-height: 1.35;
 	}
 
 	&__price {
 		color: var(--color-ink-950);
-		font-size: 1.75rem;
+		font-size: 1.6rem;
 		line-height: 1;
 		font-weight: 800;
 	}
@@ -141,11 +141,17 @@ defineEmits<{
 	}
 
 	:deep(.quantity-selector) {
-		gap: 14px;
+		gap: 10px;
 	}
 
 	:deep(.quantity-selector__value) {
-		font-size: 1.75rem;
+		min-width: 1.5ch;
+		font-size: 1.45rem;
+	}
+
+	:deep(.quantity-selector .v-btn) {
+		width: 44px;
+		height: 44px;
 	}
 }
 </style>
