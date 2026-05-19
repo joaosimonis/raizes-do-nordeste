@@ -45,6 +45,35 @@
 				</div>
 			</v-card>
 
+			<v-card
+				class="cart-page__privacy"
+				elevation="0"
+				rounded="xl"
+				variant="outlined"
+			>
+				<div class="cart-page__privacy-content">
+					<div class="cart-page__privacy-copy">
+						<p class="cart-page__privacy-title">Consentimento LGPD</p>
+						<p class="cart-page__privacy-text">
+							{{
+								hasAcceptedRequiredConsents
+									? "O tratamento de dados para pedido e pagamento já foi confirmado."
+									: "É necessário aceitar o tratamento de dados para concluir o pedido e seguir para o pagamento."
+							}}
+						</p>
+					</div>
+
+					<v-btn
+						class="cart-page__privacy-button"
+						color="primary"
+						rounded="xl"
+						:text="hasAcceptedRequiredConsents ? 'Rever termos' : 'Ler e aceitar termos'"
+						variant="text"
+						@click="openPrivacyDialog"
+					/>
+				</div>
+			</v-card>
+
 			<v-btn
 				block
 				class="cart-page__action"
@@ -84,16 +113,49 @@
 		@cancel="cancelRemoveItem"
 		@confirm="confirmRemoveItem"
 	/>
+
+	<PrivacyTermsDialog
+		v-model="isPrivacyDialogVisible"
+		:consent-options="consentOptions"
+		:selected-ids="acceptedConsentIds"
+		:terms="terms"
+		@accept="handlePrivacyAccept"
+	/>
 </template>
 
 <script setup lang="ts">
 import CartItemCard from "@/features/cart/components/CartItemCard.vue";
 import RemoveCartItemDialog from "@/features/cart/components/RemoveCartItemDialog.vue";
 import { useCart } from "@/features/cart/composables/useCart";
+import PrivacyTermsDialog from "@/features/privacy/components/PrivacyTermsDialog.vue";
 import AppHeader from "@/shared/components/AppHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
-const { cancelRemoveItem, confirmRemoveItem, decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, handleRemoveItem, hasItems, incrementItemQuantity, isRemoveDialogVisible, isSnackbarVisible, items, pendingRemoveItemName, snackbarMessage, totals } = useCart();
+const {
+	acceptedConsentIds,
+	cancelRemoveItem,
+	confirmRemoveItem,
+	consentOptions,
+	decrementItemQuantity,
+	deliveryFee,
+	finalTotal,
+	goBack,
+	goToPayment,
+	handlePrivacyAccept,
+	handleRemoveItem,
+	hasAcceptedRequiredConsents,
+	hasItems,
+	incrementItemQuantity,
+	isPrivacyDialogVisible,
+	isRemoveDialogVisible,
+	isSnackbarVisible,
+	items,
+	openPrivacyDialog,
+	pendingRemoveItemName,
+	snackbarMessage,
+	terms,
+	totals,
+} = useCart();
 </script>
 
 <style scoped lang="scss">
@@ -151,6 +213,44 @@ const { cancelRemoveItem, confirmRemoveItem, decrementItemQuantity, deliveryFee,
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
+	}
+
+	&__privacy {
+		padding: 16px 18px;
+		border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.12);
+	}
+
+	&__privacy-content {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	&__privacy-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	&__privacy-title {
+		color: var(--color-ink-950);
+		font-size: 1rem;
+		line-height: 1.2;
+		font-weight: 700;
+	}
+
+	&__privacy-text {
+		color: var(--color-stone-600);
+		font-size: 0.92rem;
+		line-height: 1.45;
+	}
+
+	&__privacy-button {
+		align-self: flex-start;
+		padding-inline: 0;
+		text-transform: none;
+		letter-spacing: 0;
+		font-weight: 600;
 	}
 
 	&__empty {
