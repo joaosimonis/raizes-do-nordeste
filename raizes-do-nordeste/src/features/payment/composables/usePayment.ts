@@ -3,7 +3,6 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/features/cart/store/cart.store";
 import { useOrdersStore } from "@/features/orders/store/orders.store";
-import { mockPaymentRequest } from "@/features/payment/mocks/payment.mock";
 import { usePaymentStore } from "@/features/payment/store/payment.store";
 import type { PaymentMethodId } from "@/features/payment/types/payment.types";
 
@@ -31,16 +30,29 @@ export const usePayment = () => {
 			return;
 		}
 
+		if (!cartStore.unitId) {
+			return;
+		}
+
+		const nextOrder = ordersStore.createOrderFromCart({
+			items: items.value,
+			total: finalTotal.value,
+			unitId: cartStore.unitId,
+		});
+
 		const paymentResponse = paymentStore.confirmMockPayment({
 			amount: finalTotal.value,
-			orderId: mockPaymentRequest.orderId,
+			orderId: nextOrder.id,
 		});
 
 		if (paymentResponse) {
 			ordersStore.setCurrentOrder(paymentResponse.orderId);
 		}
 
-		router.push({ name: "order-status" });
+		router.push({
+			name: "order-status",
+			params: { orderId: nextOrder.id },
+		});
 	};
 
 	const goBack = () => {

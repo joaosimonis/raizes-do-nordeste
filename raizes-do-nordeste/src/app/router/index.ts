@@ -35,7 +35,7 @@ const router = createRouter({
 			component: PaymentPage,
 		},
 		{
-			path: "/status-pedido",
+			path: "/status-pedido/:orderId",
 			name: "order-status",
 			component: OrderStatusPage,
 		},

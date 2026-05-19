@@ -46,6 +46,7 @@
 				<OrderStatusStepItem
 					v-for="step in currentOrder.steps"
 					:key="step.id"
+					:action-label="advanceActionLabel"
 					:show-advance-action="step.isCurrent && canAdvanceCurrentOrder"
 					:step="step"
 					@advance="advanceOrderStep"
@@ -90,7 +91,7 @@ import OrderStatusStepItem from "@/features/orders/components/OrderStatusStepIte
 import { useOrderStatus } from "@/features/orders/composables/useOrderStatus";
 import AppHeader from "@/shared/components/AppHeader.vue";
 
-const { advanceOrderStep, canAdvanceCurrentOrder, currentOrder, goBackToStart, isOrderCompleted } = useOrderStatus();
+const { advanceActionLabel, advanceOrderStep, canAdvanceCurrentOrder, currentOrder, goBackToStart, isOrderCompleted } = useOrderStatus();
 </script>
 
 <style scoped lang="scss">
@@ -140,10 +141,10 @@ const { advanceOrderStep, canAdvanceCurrentOrder, currentOrder, goBackToStart, i
 
 	&__message {
 		color: var(--color-ink-950);
-		max-width: 16ch;
+		max-width: 22ch;
 		margin: 0 auto;
-		font-size: 1.45rem;
-		line-height: 1.2;
+		font-size: 1.32rem;
+		line-height: 1.28;
 		font-weight: 600;
 		text-align: center;
 	}

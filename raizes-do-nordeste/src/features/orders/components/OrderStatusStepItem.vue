@@ -21,7 +21,7 @@
 			color="primary"
 			rounded="xl"
 			size="small"
-			text="Avançar"
+			:text="actionLabel"
 			variant="tonal"
 			@click="$emit('advance')"
 		/>
@@ -33,6 +33,7 @@ import { computed } from "vue";
 import type { OrderStatusStep } from "@/features/orders/types/order.types";
 
 const props = defineProps<{
+	actionLabel?: string;
 	showAdvanceAction?: boolean;
 	step: OrderStatusStep;
 }>();
