@@ -1,22 +1,22 @@
-export type MenuCategoryId = 'lanches' | 'bebidas' | 'sobremesas'
+export type MenuCategoryId = "lanches" | "bebidas" | "sobremesas";
 
 export interface MenuCategory {
-  id: MenuCategoryId
-  label: string
+	id: MenuCategoryId;
+	label: string;
 }
 
 export interface MenuItem {
-  id: string
-  name: string
-  description: string
-  price: number
-  categoryId: MenuCategoryId
-  unitIds: string[]
-  image?: string
+	id: string;
+	name: string;
+	description: string;
+	price: number;
+	categoryId: MenuCategoryId;
+	unitIds: string[];
+	image?: string;
 }
 
 export interface MenuItemSelectionState {
-  itemId: string | null
-  quantity: number
-  notes: string
+	itemId: string | null;
+	quantity: number;
+	notes: string;
 }

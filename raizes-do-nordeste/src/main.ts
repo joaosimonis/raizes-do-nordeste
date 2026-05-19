@@ -1,13 +1,13 @@
-import { createApp } from 'vue'
-import { registerPlugins } from '@/app/plugins'
+import { createApp } from "vue";
+import { registerPlugins } from "@/app/plugins";
 
-import App from './App.vue'
+import App from "./App.vue";
 
-import '@/shared/styles/main.css'
-import 'unfonts.css'
+import "@/shared/styles/main.css";
+import "unfonts.css";
 
-const app = createApp(App)
+const app = createApp(App);
 
-registerPlugins(app)
+registerPlugins(app);
 
-app.mount('#app')
+app.mount("#app");
