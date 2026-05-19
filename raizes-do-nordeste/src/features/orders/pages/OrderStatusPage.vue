@@ -1,15 +1,14 @@
 <template>
 	<v-container class="order-status-page">
-		<AppPageHeader
+		<AppHeader
 			class="order-status-page__header"
+			:subtitle="currentOrder?.code ?? ''"
 			show-back-button
-			title="Raízes do Nordeste"
+			title="Status do pedido"
 			@back="goBackToStart"
 		/>
 
 		<div v-if="currentOrder" class="order-status-page__content">
-			<h2 class="order-status-page__title">Status do pedido</h2>
-
 			<v-card
 				class="order-status-page__code-card"
 				elevation="0"
@@ -59,7 +58,7 @@
 <script setup lang="ts">
 	import OrderStatusStepItem from "@/features/orders/components/OrderStatusStepItem.vue";
 	import { useOrderStatus } from "@/features/orders/composables/useOrderStatus";
-	import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+	import AppHeader from "@/shared/components/AppHeader.vue";
 
 	const { currentOrder, goBackToStart } = useOrderStatus();
 </script>
@@ -79,13 +78,6 @@
 			display: flex;
 			flex-direction: column;
 			gap: 24px;
-		}
-
-		&__title {
-			color: var(--color-ink-950);
-			font-size: 2rem;
-			line-height: 1.08;
-			font-weight: 700;
 		}
 
 		&__code-card {

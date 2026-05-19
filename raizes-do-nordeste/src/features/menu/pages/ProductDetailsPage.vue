@@ -1,10 +1,11 @@
 <template>
 	<v-container class="product-details-page">
-		<AppPageHeader
+		<AppHeader
 			class="product-details-page__header"
+			:subtitle="selectedUnit?.name ?? ''"
 			show-back-button
 			show-cart-button
-			title="Raízes do Nordeste"
+			:title="selectedMenuItem?.name ?? 'Produto'"
 			@back="goBack"
 			@cart="goToCart"
 		/>
@@ -83,13 +84,13 @@ import { useRouter } from "vue-router";
 import ProductCard from "@/features/menu/components/ProductCard.vue";
 import { useProductDetails } from "@/features/menu/composables/useProductDetails";
 import { useUnitsStore } from "@/features/units/store/units.store";
-import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+import AppHeader from "@/shared/components/AppHeader.vue";
 import QuantitySelector from "@/shared/components/QuantitySelector.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
 const router = useRouter();
 const unitsStore = useUnitsStore();
-const { selectedUnitId } = storeToRefs(unitsStore);
+const { selectedUnit, selectedUnitId } = storeToRefs(unitsStore);
 const { addSelectedItemToCart, canDecreaseQuantity, decreaseQuantity, increaseQuantity, notes, quantity, selectedMenuItem } = useProductDetails();
 const isSnackbarVisible = ref(false);
 const snackbarMessage = ref("");

@@ -1,6 +1,6 @@
 <template>
 	<v-container class="select-unit-page">
-		<AppPageHeader
+		<AppHeader
 			class="select-unit-page__header"
 			subtitle="Escolha a unidade mais próxima"
 			title="Raízes do Nordeste"
@@ -34,7 +34,7 @@ import type { Unit } from "@/features/units/types/unit.types";
 import { useRouter } from "vue-router";
 import UnitCard from "@/features/units/components/UnitCard.vue";
 import { useUnits } from "@/features/units/composables/useUnits";
-import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+import AppHeader from "@/shared/components/AppHeader.vue";
 
 const router = useRouter();
 const { filteredUnits, search, unitsStore } = useUnits();

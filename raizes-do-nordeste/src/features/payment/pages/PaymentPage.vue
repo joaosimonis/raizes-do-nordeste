@@ -1,9 +1,10 @@
 <template>
 	<v-container class="payment-page">
-		<AppPageHeader
+		<AppHeader
 			class="payment-page__header"
+			subtitle="Revise os itens e escolha a forma de pagamento"
 			show-back-button
-			title="Raízes do Nordeste"
+			title="Pagamento"
 			@back="goBack"
 		/>
 
@@ -11,33 +12,29 @@
 			v-if="hasItems"
 			class="payment-page__content"
 		>
-			<div class="payment-page__section">
-				<h2 class="payment-page__title">Resumo do pedido</h2>
-
-				<v-card
-					class="payment-page__summary"
-					elevation="0"
-					rounded="xl"
-					variant="outlined"
+			<v-card
+				class="payment-page__summary"
+				elevation="0"
+				rounded="xl"
+				variant="outlined"
+			>
+				<div
+					v-for="item in items"
+					:key="item.id"
+					class="payment-page__summary-item"
 				>
-					<div
-						v-for="item in items"
-						:key="item.id"
-						class="payment-page__summary-item"
-					>
-						<span class="payment-page__summary-name">{{ item.name }}</span>
-						<span class="payment-page__summary-quantity">{{ item.quantity }}</span>
-					</div>
+					<span class="payment-page__summary-name">{{ item.name }}</span>
+					<span class="payment-page__summary-quantity">{{ item.quantity }}</span>
+				</div>
 
-					<div class="payment-page__summary-total">
-						<span>Total do pedido</span>
-						<span>{{ formatValueToBRL(finalTotal) }}</span>
-					</div>
-				</v-card>
-			</div>
+				<div class="payment-page__summary-total">
+					<span>Total do pedido</span>
+					<span>{{ formatValueToBRL(finalTotal) }}</span>
+				</div>
+			</v-card>
 
 			<div class="payment-page__section">
-				<h2 class="payment-page__title">Formas de pagamento</h2>
+				<h2 class="payment-page__section-title">Formas de pagamento</h2>
 
 				<div class="payment-page__methods">
 					<PaymentMethodCard
@@ -76,7 +73,7 @@
 <script setup lang="ts">
 import PaymentMethodCard from "@/features/payment/components/PaymentMethodCard.vue";
 import { usePayment } from "@/features/payment/composables/usePayment";
-import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+import AppHeader from "@/shared/components/AppHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
 const { confirmPayment, finalTotal, goBack, hasItems, items, methods, selectPaymentMethod, selectedMethodId } = usePayment();
@@ -105,10 +102,10 @@ const { confirmPayment, finalTotal, goBack, hasItems, items, methods, selectPaym
 		gap: 16px;
 	}
 
-	&__title {
+	&__section-title {
 		color: var(--color-ink-950);
-		font-size: 2rem;
-		line-height: 1.08;
+		font-size: 1.35rem;
+		line-height: 1.12;
 		font-weight: 700;
 	}
 

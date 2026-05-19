@@ -1,9 +1,10 @@
 <template>
 	<v-container class="cart-page">
-		<AppPageHeader
+		<AppHeader
 			class="cart-page__header"
+			:subtitle="`${totals.totalItems} itens no pedido`"
 			show-back-button
-			title="Raízes do Nordeste"
+			title="Carrinho"
 			@back="goBack"
 		/>
 
@@ -11,10 +12,6 @@
 			v-if="hasItems"
 			class="cart-page__content"
 		>
-			<div class="cart-page__heading">
-				<h2 class="cart-page__title">Seu carrinho ({{ totals.totalItems }} itens)</h2>
-			</div>
-
 			<div class="cart-page__list">
 				<CartItemCard
 					v-for="item in items"
@@ -84,7 +81,7 @@
 <script setup lang="ts">
 import CartItemCard from "@/features/cart/components/CartItemCard.vue";
 import { useCart } from "@/features/cart/composables/useCart";
-import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+import AppHeader from "@/shared/components/AppHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
 const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, handleRemoveItem, hasItems, incrementItemQuantity, isSnackbarVisible, items, snackbarMessage, totals } = useCart();
@@ -105,13 +102,6 @@ const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, han
 		display: flex;
 		flex-direction: column;
 		gap: 24px;
-	}
-
-	&__title {
-		color: var(--color-ink-950);
-		font-size: 2rem;
-		line-height: 1.08;
-		font-weight: 700;
 	}
 
 	&__list {

@@ -1,11 +1,11 @@
 <template>
 	<v-container class="menu-page">
-		<AppPageHeader
+		<AppHeader
 			class="menu-page__header"
 			:subtitle="selectedUnit?.name ?? 'Selecione uma unidade'"
 			show-back-button
 			show-cart-button
-			title="Raízes do Nordeste"
+			title="Cardápio"
 			@back="goBack"
 			@cart="goToCart"
 		/>
@@ -52,7 +52,7 @@ import type { MenuItem } from "@/features/menu/types/menu.types";
 import { useRouter } from "vue-router";
 import MenuItemCard from "@/features/menu/components/MenuItemCard.vue";
 import { useMenu } from "@/features/menu/composables/useMenu";
-import AppPageHeader from "@/shared/components/AppPageHeader.vue";
+import AppHeader from "@/shared/components/AppHeader.vue";
 
 const router = useRouter();
 const { activeCategory, categoryOptions, filteredMenuItems, menuStore, search, selectedUnit, setActiveCategory } = useMenu();
