@@ -21,14 +21,14 @@ export const mockPaymentMethods: PaymentMethod[] = [
 export const mockPaymentRequest: PaymentRequest = {
 	amount: 38,
 	methodId: "pix",
-	orderId: "pedido-123456",
+	orderId: "order-001",
 	provider: "uninterbank",
 };
 
 export const mockApprovedPaymentResponse: PaymentResponse = {
 	externalPaymentId: "pay-001",
 	message: "Pagamento aprovado pelo serviço externo.",
-	orderId: "pedido-123456",
+	orderId: "order-001",
 	processedAt: "2026-05-19T09:30:00-03:00",
 	provider: "uninterbank",
 	status: "aprovado",
@@ -37,7 +37,7 @@ export const mockApprovedPaymentResponse: PaymentResponse = {
 export const mockDeclinedPaymentResponse: PaymentResponse = {
 	externalPaymentId: "pay-002",
 	message: "Pagamento recusado pelo serviço externo.",
-	orderId: "pedido-123456",
+	orderId: "order-001",
 	processedAt: "2026-05-19T09:31:00-03:00",
 	provider: "uninterbank",
 	status: "recusado",
@@ -46,7 +46,7 @@ export const mockDeclinedPaymentResponse: PaymentResponse = {
 export const mockRequestedPaymentResponse: PaymentResponse = {
 	externalPaymentId: "pay-003",
 	message: "Pagamento enviado para processamento externo.",
-	orderId: "pedido-123456",
+	orderId: "order-001",
 	processedAt: "2026-05-19T09:29:00-03:00",
 	provider: "uninterbank",
 	status: "solicitado",

@@ -2,6 +2,7 @@ import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/features/cart/store/cart.store";
+import { useOrdersStore } from "@/features/orders/store/orders.store";
 import { mockPaymentRequest } from "@/features/payment/mocks/payment.mock";
 import { usePaymentStore } from "@/features/payment/store/payment.store";
 import type { PaymentMethodId } from "@/features/payment/types/payment.types";
@@ -11,6 +12,7 @@ const DELIVERY_FEE = 8;
 export const usePayment = () => {
 	const router = useRouter();
 	const cartStore = useCartStore();
+	const ordersStore = useOrdersStore();
 	const paymentStore = usePaymentStore();
 	const { items, totals } = storeToRefs(cartStore);
 	const { methods, selectedMethodId } = storeToRefs(paymentStore);
@@ -28,10 +30,14 @@ export const usePayment = () => {
 			return;
 		}
 
-		paymentStore.confirmMockPayment({
+		const paymentResponse = paymentStore.confirmMockPayment({
 			amount: finalTotal.value,
 			orderId: mockPaymentRequest.orderId,
 		});
+
+		if (paymentResponse) {
+			ordersStore.setCurrentOrder(paymentResponse.orderId);
+		}
 
 		router.push({ name: "order-status" });
 	};
