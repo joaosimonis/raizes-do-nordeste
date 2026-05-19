@@ -20,7 +20,17 @@
 		</v-avatar>
 
 		<div class="payment-method-card__content">
-			<p class="payment-method-card__label">{{ method.label }}</p>
+			<div class="payment-method-card__heading">
+				<p class="payment-method-card__label">{{ method.label }}</p>
+
+				<v-icon
+					v-if="isSelected"
+					class="payment-method-card__check"
+					color="primary"
+					icon="mdi-check-circle"
+					size="20"
+				/>
+			</div>
 			<p class="payment-method-card__description">{{ method.description }}</p>
 		</div>
 	</v-card>
@@ -66,9 +76,9 @@ const icon = computed(() => {
 		box-shadow 0.2s ease;
 
 	&--selected {
-		border-color: rgb(var(--v-theme-primary));
-		background-color: rgb(var(--v-theme-primary) / 0.06);
-		box-shadow: 0 10px 24px rgb(var(--v-theme-primary) / 0.08);
+		border-color: rgb(var(--v-theme-primary) / 0.55);
+		background-color: rgb(var(--v-theme-primary) / 0.05);
+		box-shadow: 0 10px 24px rgb(var(--v-theme-primary) / 0.06);
 	}
 
 	&__media {
@@ -83,6 +93,13 @@ const icon = computed(() => {
 		min-width: 0;
 	}
 
+	&__heading {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	&__label {
 		color: var(--color-ink-950);
 		font-size: 1.15rem;
@@ -92,8 +109,8 @@ const icon = computed(() => {
 
 	&__description {
 		color: var(--color-stone-600);
-		font-size: 0.95rem;
-		line-height: 1.35;
+		font-size: 0.92rem;
+		line-height: 1.4;
 	}
 }
 </style>

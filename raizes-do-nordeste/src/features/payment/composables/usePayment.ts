@@ -20,6 +20,7 @@ export const usePayment = () => {
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
 	const finalTotal = computed(() => totals.value.subtotal + deliveryFee.value);
+	const canConfirmPayment = computed(() => hasItems.value && Boolean(selectedMethodId.value));
 
 	const selectPaymentMethod = (methodId: PaymentMethodId) => {
 		paymentStore.setSelectedMethod(methodId);
@@ -47,6 +48,7 @@ export const usePayment = () => {
 	};
 
 	return {
+		canConfirmPayment,
 		confirmPayment,
 		deliveryFee,
 		finalTotal,
