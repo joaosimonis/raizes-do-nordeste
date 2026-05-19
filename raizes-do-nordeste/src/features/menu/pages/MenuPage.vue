@@ -83,23 +83,25 @@ const goToCart = () => {
 	padding: 16px;
 
 	&__header {
-		margin-bottom: 24px;
+		margin-bottom: 20px;
 	}
 
 	&__search {
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 	}
 
 	&__categories {
 		display: flex;
 		gap: 10px;
-		margin-bottom: 20px;
+		margin-bottom: 18px;
 		overflow-x: auto;
-		padding-bottom: 4px;
+		padding-bottom: 6px;
 	}
 
 	&__category {
 		flex-shrink: 0;
+		min-height: 38px;
+		padding-inline: 14px;
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
@@ -107,7 +109,7 @@ const goToCart = () => {
 
 	&__list {
 		display: grid;
-		gap: 16px;
+		gap: 14px;
 	}
 }
 </style>

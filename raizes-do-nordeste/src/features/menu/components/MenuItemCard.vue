@@ -47,10 +47,10 @@ defineEmits<{
 <style scoped lang="scss">
 .menu-item-card {
 	display: flex;
-	gap: 16px;
+	gap: 14px;
 	align-items: center;
-	padding: 16px;
-	border-color: var(--color-ink-900);
+	padding: 14px;
+	border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
 	cursor: pointer;
 
 	&__media {
@@ -58,8 +58,8 @@ defineEmits<{
 		flex-shrink: 0;
 		align-items: center;
 		justify-content: center;
-		width: 88px;
-		height: 88px;
+		width: 80px;
+		height: 80px;
 		overflow: hidden;
 		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.16);
 		border-radius: 12px;
@@ -72,7 +72,10 @@ defineEmits<{
 	}
 
 	&__body {
+		display: flex;
 		flex: 1;
+		flex-direction: column;
+		gap: 8px;
 		min-width: 0;
 	}
 
@@ -84,18 +87,19 @@ defineEmits<{
 
 	&__title {
 		font-size: 1rem;
-		line-height: 1.3;
+		line-height: 1.2;
 		font-weight: 600;
 	}
 
 	&__price {
-		margin-top: 10px;
-		font-size: 1.5rem;
+		font-size: 1.35rem;
 		line-height: 1;
-		font-weight: 700;
+		font-weight: 800;
 	}
 
 	&__action {
+		min-height: 40px;
+		padding-inline: 14px;
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;

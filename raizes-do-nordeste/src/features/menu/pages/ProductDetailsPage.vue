@@ -17,9 +17,7 @@
 			<ProductCard :item="selectedMenuItem" />
 
 			<div class="product-details-page__details">
-				<h2 class="product-details-page__title">{{ selectedMenuItem.name }}</h2>
 				<p class="product-details-page__price">{{ formatValueToBRL(selectedMenuItem.price) }}</p>
-				<p class="product-details-page__description">{{ selectedMenuItem.description }}</p>
 			</div>
 
 			<div class="product-details-page__notes">
@@ -37,23 +35,25 @@
 				/>
 			</div>
 
-			<QuantitySelector
-				:disable-decrement="!canDecreaseQuantity"
-				:value="quantity"
-				@decrement="decreaseQuantity"
-				@increment="increaseQuantity"
-			/>
+			<div class="product-details-page__purchase">
+				<QuantitySelector
+					:disable-decrement="!canDecreaseQuantity"
+					:value="quantity"
+					@decrement="decreaseQuantity"
+					@increment="increaseQuantity"
+				/>
 
-			<v-btn
-				block
-				class="product-details-page__action"
-				color="primary"
-				rounded="xl"
-				size="x-large"
-				text="Adicionar ao carrinho"
-				variant="flat"
-				@click="handleAddToCart"
-			/>
+				<v-btn
+					block
+					class="product-details-page__action"
+					color="primary"
+					rounded="xl"
+					size="x-large"
+					text="Adicionar ao carrinho"
+					variant="flat"
+					@click="handleAddToCart"
+				/>
+			</div>
 		</div>
 
 		<v-alert
@@ -68,9 +68,9 @@
 		<v-snackbar
 			v-model="isSnackbarVisible"
 			color="success"
-			location="bottom"
+			location="top"
 			rounded="pill"
-			timeout="2500"
+			timeout="3600"
 		>
 			{{ snackbarMessage }}
 		</v-snackbar>
@@ -90,7 +90,7 @@ import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
 const router = useRouter();
 const unitsStore = useUnitsStore();
-const { selectedUnit, selectedUnitId } = storeToRefs(unitsStore);
+const { selectedUnit } = storeToRefs(unitsStore);
 const { addSelectedItemToCart, canDecreaseQuantity, decreaseQuantity, increaseQuantity, notes, quantity, selectedMenuItem } = useProductDetails();
 const isSnackbarVisible = ref(false);
 const snackbarMessage = ref("");
@@ -101,13 +101,6 @@ const goBack = () => {
 
 const goToCart = () => {
 	router.push({ name: "cart" });
-};
-
-const goToMenu = () => {
-	router.push({
-		name: "menu",
-		query: selectedUnitId.value ? { unit: selectedUnitId.value } : undefined,
-	});
 };
 
 const handleAddToCart = () => {
@@ -130,52 +123,46 @@ const handleAddToCart = () => {
 	padding: 16px;
 
 	&__header {
-		margin-bottom: 24px;
+		margin-bottom: 20px;
 	}
 
 	&__content {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 20px;
 	}
 
 	&__details {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
-	}
-
-	&__title {
-		color: var(--color-ink-950);
-		font-size: 1.95rem;
-		line-height: 1.08;
-		font-weight: 700;
+		gap: 4px;
 	}
 
 	&__price {
 		color: var(--color-ink-950);
-		font-size: 2rem;
-		line-height: 1;
+		font-size: 2.25rem;
+		line-height: 0.98;
 		font-weight: 800;
-	}
-
-	&__description {
-		color: var(--color-stone-600);
-		font-size: 1rem;
-		line-height: 1.65;
 	}
 
 	&__notes {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 	}
 
 	&__section-title {
 		color: var(--color-ink-950);
-		font-size: 1.5rem;
+		font-size: 1.3rem;
 		line-height: 1.1;
 		font-weight: 700;
+	}
+
+	&__purchase {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		padding-top: 4px;
 	}
 
 	&__action {
@@ -183,17 +170,6 @@ const handleAddToCart = () => {
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
-	}
-
-	&__actions {
-		display: flex;
-		flex-direction: column;
-	}
-
-	&__secondary-action {
-		text-transform: none;
-		letter-spacing: 0;
-		font-weight: 600;
 	}
 
 	&__empty {

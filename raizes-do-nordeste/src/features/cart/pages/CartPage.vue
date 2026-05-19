@@ -69,10 +69,11 @@
 
 	<v-snackbar
 		v-model="isSnackbarVisible"
+		class="cart-page__snackbar"
 		color="info"
 		location="bottom"
 		rounded="pill"
-		timeout="2500"
+		timeout="3600"
 	>
 		{{ snackbarMessage }}
 	</v-snackbar>
@@ -145,6 +146,10 @@ const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, han
 
 	&__empty {
 		margin-top: 8px;
+	}
+
+	:deep(.cart-page__snackbar) {
+		margin-bottom: 20px;
 	}
 }
 </style>
