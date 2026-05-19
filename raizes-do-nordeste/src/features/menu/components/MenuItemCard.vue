@@ -5,16 +5,14 @@
 		variant="outlined"
 		@click="$emit('open', item)"
 	>
-		<v-avatar
-			class="menu-item-card__media"
-			rounded="lg"
-			size="88"
-		>
-			<v-icon
-				icon="mdi-food-outline"
-				size="34"
+		<div class="menu-item-card__media">
+			<v-img
+				:alt="item.image.alt"
+				cover
+				:src="item.image.src"
+				class="menu-item-card__image"
 			/>
-		</v-avatar>
+		</div>
 
 		<div class="menu-item-card__body">
 			<h2 class="menu-item-card__title">{{ item.name }}</h2>
@@ -56,9 +54,21 @@ defineEmits<{
 	cursor: pointer;
 
 	&__media {
-		border: 2px solid var(--color-ink-900);
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		width: 88px;
+		height: 88px;
+		overflow: hidden;
+		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.16);
+		border-radius: 12px;
 		background: var(--color-sand-100);
-		color: var(--color-earth-700);
+	}
+
+	&__image {
+		width: 100%;
+		height: 100%;
 	}
 
 	&__body {

@@ -1,3 +1,5 @@
+import type { MenuItemImage } from "@/features/menu/types/menu.types";
+
 export interface CartItemInput {
 	menuItemId: string;
 	quantity: number;
@@ -8,7 +10,7 @@ export interface CartItem extends CartItemInput {
 	id: string;
 	name: string;
 	unitPrice: number;
-	image?: string;
+	image: MenuItemImage;
 }
 
 export interface CartState {

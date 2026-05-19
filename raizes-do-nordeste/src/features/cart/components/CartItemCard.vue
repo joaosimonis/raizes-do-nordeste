@@ -5,18 +5,14 @@
 		rounded="xl"
 		variant="outlined"
 	>
-		<v-avatar
-			class="cart-item-card__media"
-			color="var(--color-sand-100)"
-			rounded="lg"
-			size="88"
-		>
-			<v-icon
-				color="var(--color-earth-700)"
-				icon="mdi-food-outline"
-				size="36"
+		<div class="cart-item-card__media">
+			<v-img
+				:alt="item.image.alt"
+				cover
+				:src="item.image.src"
+				class="cart-item-card__image"
 			/>
-		</v-avatar>
+		</div>
 
 		<div class="cart-item-card__body">
 			<div class="cart-item-card__top">
@@ -77,7 +73,17 @@ defineEmits<{
 	border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
 
 	&__media {
+		width: 88px;
+		height: 88px;
+		overflow: hidden;
 		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.12);
+		border-radius: 12px;
+		background: var(--color-sand-100);
+	}
+
+	&__image {
+		width: 100%;
+		height: 100%;
 	}
 
 	&__body {

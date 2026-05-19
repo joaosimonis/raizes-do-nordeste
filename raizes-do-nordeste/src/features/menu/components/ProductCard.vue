@@ -7,18 +7,14 @@
 	>
 		<h2 class="product-card__title">{{ item.name }}</h2>
 
-		<v-avatar
-			class="product-card__image"
-			color="var(--color-sand-100)"
-			rounded="lg"
-			size="96"
-		>
-			<v-icon
-				color="var(--color-earth-700)"
-				icon="mdi-food-outline"
-				size="56"
+		<div class="product-card__image">
+			<v-img
+				:alt="item.image.alt"
+				cover
+				:src="item.image.src"
+				class="product-card__media"
 			/>
-		</v-avatar>
+		</div>
 	</v-card>
 </template>
 
@@ -48,7 +44,17 @@ defineProps<{
 	}
 
 	&__image {
+		width: 112px;
+		height: 112px;
+		overflow: hidden;
 		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.12);
+		border-radius: 12px;
+		background: var(--color-sand-100);
+	}
+
+	&__media {
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>
