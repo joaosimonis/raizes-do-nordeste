@@ -1,9 +1,17 @@
 import type { Unit } from "@/features/units/types/unit.types";
+import unidadeCaruaruImage from "@/assets/images/units/unidade-centro.png";
+import unidadeFortalezaImage from "@/assets/images/units/unidade-fortaleza.png";
+import unidadeRecifeImage from "@/assets/images/units/unidade-recife.png";
+import unidadeSalvadorImage from "@/assets/images/units/unidade-salvador.png";
 
 export const mockUnits: Unit[] = [
 	{
 		id: "unit-recife-boa-vista",
 		name: "Raízes Recife Boa Vista",
+		image: {
+			src: unidadeRecifeImage,
+			alt: "Fachada da unidade Raízes Recife Boa Vista",
+		},
 		address: "Rua da Aurora, 245",
 		city: "Recife",
 		state: "PE",
@@ -17,6 +25,10 @@ export const mockUnits: Unit[] = [
 	{
 		id: "unit-caruaru-centro",
 		name: "Raízes Caruaru Centro",
+		image: {
+			src: unidadeCaruaruImage,
+			alt: "Fachada da unidade Raízes Caruaru Centro",
+		},
 		address: "Avenida Rio Branco, 88",
 		city: "Caruaru",
 		state: "PE",
@@ -30,6 +42,10 @@ export const mockUnits: Unit[] = [
 	{
 		id: "unit-salvador-rio-vermelho",
 		name: "Raízes Salvador Rio Vermelho",
+		image: {
+			src: unidadeSalvadorImage,
+			alt: "Fachada da unidade Raízes Salvador Rio Vermelho",
+		},
 		address: "Rua Odilon Santos, 62",
 		city: "Salvador",
 		state: "BA",
@@ -43,6 +59,10 @@ export const mockUnits: Unit[] = [
 	{
 		id: "unit-fortaleza-aldeota",
 		name: "Raízes Fortaleza Aldeota",
+		image: {
+			src: unidadeFortalezaImage,
+			alt: "Fachada da unidade Raízes Fortaleza Aldeota",
+		},
 		address: "Avenida Santos Dumont, 1410",
 		city: "Fortaleza",
 		state: "CE",
