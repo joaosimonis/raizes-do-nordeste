@@ -14,6 +14,17 @@
 		</v-avatar>
 
 		<p class="order-status-step-item__label">{{ step.label }}</p>
+
+		<v-btn
+			v-if="showAdvanceAction"
+			class="order-status-step-item__action"
+			color="primary"
+			rounded="xl"
+			size="small"
+			text="Avançar"
+			variant="tonal"
+			@click="$emit('advance')"
+		/>
 	</div>
 </template>
 
@@ -22,11 +33,20 @@ import { computed } from "vue";
 import type { OrderStatusStep } from "@/features/orders/types/order.types";
 
 const props = defineProps<{
+	showAdvanceAction?: boolean;
 	step: OrderStatusStep;
 }>();
 
+defineEmits<{
+	advance: [];
+}>();
+
 const icon = computed(() => {
-	if (props.step.isCurrent || props.step.isCompleted) {
+	if (props.step.isCurrent) {
+		return "mdi-timer-sand";
+	}
+
+	if (props.step.isCompleted) {
 		return "mdi-check";
 	}
 
@@ -42,7 +62,7 @@ const avatarColor = computed(() => {
 		return "rgb(var(--v-theme-secondary) / 0.14)";
 	}
 
-	return "var(--color-sand-100)";
+	return "var(--color-white)";
 });
 
 const iconColor = computed(() => {
@@ -61,7 +81,7 @@ const iconColor = computed(() => {
 <style scoped lang="scss">
 .order-status-step-item {
 	display: flex;
-	gap: 16px;
+	gap: 14px;
 	align-items: center;
 
 	&__avatar {
@@ -69,9 +89,16 @@ const iconColor = computed(() => {
 	}
 
 	&__label {
+		flex: 1;
 		color: var(--color-ink-950);
-		font-size: 1.1rem;
+		font-size: 1rem;
 		line-height: 1.2;
+		font-weight: 600;
+	}
+
+	&__action {
+		text-transform: none;
+		letter-spacing: 0;
 		font-weight: 600;
 	}
 }

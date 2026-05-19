@@ -2,7 +2,6 @@
 	<v-container class="order-status-page">
 		<AppHeader
 			class="order-status-page__header"
-			:subtitle="currentOrder?.code ?? ''"
 			show-back-button
 			title="Status do pedido"
 			@back="goBackToStart"
@@ -18,28 +17,52 @@
 				rounded="xl"
 				variant="outlined"
 			>
+				<p class="order-status-page__code-label">Pedido</p>
 				<span class="order-status-page__code">{{ currentOrder.code }}</span>
+			</v-card>
+
+			<p class="order-status-page__message">{{ currentOrder.statusMessage }}</p>
+
+			<v-card
+				v-if="!isOrderCompleted"
+				class="order-status-page__estimate"
+				elevation="0"
+				rounded="xl"
+				variant="outlined"
+			>
+				<v-icon
+					class="order-status-page__estimate-icon"
+					color="primary"
+					icon="mdi-clock-outline"
+					size="20"
+				/>
+				<div class="order-status-page__estimate-content">
+					<p class="order-status-page__estimate-label">Tempo estimado</p>
+					<p class="order-status-page__estimate-value">{{ currentOrder.estimatedPickupTime }}</p>
+				</div>
 			</v-card>
 
 			<div class="order-status-page__steps">
 				<OrderStatusStepItem
 					v-for="step in currentOrder.steps"
 					:key="step.id"
+					:show-advance-action="step.isCurrent && canAdvanceCurrentOrder"
 					:step="step"
+					@advance="advanceOrderStep"
 				/>
 			</div>
 
-			<p class="order-status-page__message">{{ currentOrder.statusMessage }}</p>
-
-			<v-sheet
-				class="order-status-page__estimate"
-				color="var(--color-sand-100)"
-				rounded="xl"
-			>
-				Tempo estimado: {{ currentOrder.estimatedPickupTime }}
-			</v-sheet>
+			<v-alert
+				v-if="isOrderCompleted"
+				border="start"
+				class="order-status-page__completion"
+				color="success"
+				text="O pedido foi entregue e o acompanhamento foi concluído."
+				variant="tonal"
+			/>
 
 			<v-btn
+				v-if="isOrderCompleted"
 				block
 				class="order-status-page__action"
 				color="primary"
@@ -67,7 +90,7 @@ import OrderStatusStepItem from "@/features/orders/components/OrderStatusStepIte
 import { useOrderStatus } from "@/features/orders/composables/useOrderStatus";
 import AppHeader from "@/shared/components/AppHeader.vue";
 
-const { currentOrder, goBackToStart } = useOrderStatus();
+const { advanceOrderStep, canAdvanceCurrentOrder, currentOrder, goBackToStart, isOrderCompleted } = useOrderStatus();
 </script>
 
 <style scoped lang="scss">
@@ -84,48 +107,90 @@ const { currentOrder, goBackToStart } = useOrderStatus();
 	&__content {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 18px;
 	}
 
 	&__code-card {
-		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 18px 20px;
 		border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
+	}
+
+	&__code-label {
+		color: var(--color-stone-600);
+		font-size: 0.9rem;
+		line-height: 1.2;
+		font-weight: 500;
 	}
 
 	&__code {
 		color: var(--color-ink-950);
-		font-size: 1.35rem;
+		font-size: 1.28rem;
 		line-height: 1.2;
-		font-weight: 600;
+		font-weight: 700;
 	}
 
 	&__steps {
 		display: flex;
 		flex-direction: column;
-		gap: 20px;
+		gap: 12px;
 	}
 
 	&__message {
 		color: var(--color-ink-950);
-		font-size: 2rem;
-		line-height: 1.18;
+		max-width: 16ch;
+		margin: 0 auto;
+		font-size: 1.45rem;
+		line-height: 1.2;
 		font-weight: 600;
 		text-align: center;
 	}
 
 	&__estimate {
-		padding: 18px 20px;
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		padding: 16px 18px;
+		border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.12);
+	}
+
+	&__estimate-icon {
+		flex-shrink: 0;
+	}
+
+	&__estimate-content {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	&__estimate-label {
+		color: var(--color-stone-600);
+		font-size: 0.92rem;
+		line-height: 1.2;
+		font-weight: 500;
+		text-align: left;
+	}
+
+	&__estimate-value {
 		color: var(--color-ink-950);
-		font-size: 1.2rem;
-		line-height: 1.25;
-		font-weight: 600;
-		text-align: center;
+		font-size: 1.08rem;
+		line-height: 1.2;
+		font-weight: 700;
+		text-align: left;
 	}
 
 	&__action {
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
+	}
+
+	&__completion {
+		margin-top: 4px;
 	}
 
 	&__empty {

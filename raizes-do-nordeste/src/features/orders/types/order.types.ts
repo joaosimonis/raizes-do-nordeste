@@ -1,4 +1,4 @@
-export type OrderStatus = "pedido_confirmado" | "em_preparo" | "pronto_para_retirada" | "retirado";
+export type OrderStatus = "pedido_confirmado" | "em_preparo" | "pronto_para_retirada";
 
 export interface OrderItem {
 	id: string;
@@ -20,6 +20,7 @@ export interface Order {
 	code: string;
 	unitId: string;
 	items: OrderItem[];
+	isCompleted: boolean;
 	status: OrderStatus;
 	statusMessage: string;
 	estimatedPickupTime: string;
