@@ -53,19 +53,6 @@
 				variant="flat"
 				@click="handleAddToCart"
 			/>
-
-			<div class="product-details-page__actions">
-				<v-btn
-					block
-					class="product-details-page__secondary-action"
-					append-icon="mdi-arrow-right"
-					rounded="xl"
-					size="large"
-					text="Escolher outro produto"
-					variant="text"
-					@click="goToMenu"
-				/>
-			</div>
 		</div>
 
 		<v-alert

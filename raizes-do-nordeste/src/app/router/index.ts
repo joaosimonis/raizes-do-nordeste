@@ -3,7 +3,7 @@ import CartPage from "@/features/cart/pages/CartPage.vue";
 import MenuPage from "@/features/menu/pages/MenuPage.vue";
 import ProductDetailsPage from "@/features/menu/pages/ProductDetailsPage.vue";
 import OrderStatusPage from "@/features/orders/pages/OrderStatusPage.vue";
-import CheckoutPage from "@/features/payment/pages/CheckoutPage.vue";
+import PaymentPage from "@/features/payment/pages/PaymentPage.vue";
 import SelectUnitPage from "@/features/units/pages/SelectUnitPage.vue";
 
 const router = createRouter({
@@ -31,8 +31,8 @@ const router = createRouter({
 		},
 		{
 			path: "/pagamento",
-			name: "checkout",
-			component: CheckoutPage,
+			name: "payment",
+			component: PaymentPage,
 		},
 		{
 			path: "/status-pedido",

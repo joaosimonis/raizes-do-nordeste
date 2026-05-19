@@ -56,7 +56,7 @@
 				size="x-large"
 				text="Continuar para pagamento"
 				variant="flat"
-				@click="goToCheckout"
+				@click="goToPayment"
 			/>
 		</div>
 
@@ -87,7 +87,7 @@ import { useCart } from "@/features/cart/composables/useCart";
 import AppPageHeader from "@/shared/components/AppPageHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 
-const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToCheckout, handleRemoveItem, hasItems, incrementItemQuantity, isSnackbarVisible, items, snackbarMessage, totals } = useCart();
+const { decrementItemQuantity, deliveryFee, finalTotal, goBack, goToPayment, handleRemoveItem, hasItems, incrementItemQuantity, isSnackbarVisible, items, snackbarMessage, totals } = useCart();
 </script>
 
 <style scoped lang="scss">

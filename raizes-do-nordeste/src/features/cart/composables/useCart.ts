@@ -68,8 +68,8 @@ export const useCart = () => {
 		router.back();
 	};
 
-	const goToCheckout = () => {
-		router.push({ name: "checkout" });
+	const goToPayment = () => {
+		router.push({ name: "payment" });
 	};
 
 	return {
@@ -77,7 +77,7 @@ export const useCart = () => {
 		deliveryFee,
 		finalTotal,
 		goBack,
-		goToCheckout,
+		goToPayment,
 		handleRemoveItem,
 		hasItems,
 		incrementItemQuantity,
