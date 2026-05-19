@@ -7,7 +7,7 @@ import unidadeSalvadorImage from "@/assets/images/units/unidade-salvador.png";
 export const mockUnits: Unit[] = [
 	{
 		id: "unit-recife-boa-vista",
-		name: "Raízes Recife Boa Vista",
+		name: "Raízes Recife",
 		image: {
 			src: unidadeRecifeImage,
 			alt: "Fachada da unidade Raízes Recife Boa Vista",
@@ -24,7 +24,7 @@ export const mockUnits: Unit[] = [
 	},
 	{
 		id: "unit-caruaru-centro",
-		name: "Raízes Caruaru Centro",
+		name: "Raízes Caruaru",
 		image: {
 			src: unidadeCaruaruImage,
 			alt: "Fachada da unidade Raízes Caruaru Centro",
@@ -41,7 +41,7 @@ export const mockUnits: Unit[] = [
 	},
 	{
 		id: "unit-salvador-rio-vermelho",
-		name: "Raízes Salvador Rio Vermelho",
+		name: "Raízes Salvador",
 		image: {
 			src: unidadeSalvadorImage,
 			alt: "Fachada da unidade Raízes Salvador Rio Vermelho",
@@ -58,7 +58,7 @@ export const mockUnits: Unit[] = [
 	},
 	{
 		id: "unit-fortaleza-aldeota",
-		name: "Raízes Fortaleza Aldeota",
+		name: "Raízes Fortaleza",
 		image: {
 			src: unidadeFortalezaImage,
 			alt: "Fachada da unidade Raízes Fortaleza Aldeota",

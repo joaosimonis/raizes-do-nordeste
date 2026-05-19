@@ -14,7 +14,13 @@ export function useUnits() {
 			return units.value;
 		}
 
-		return units.value.filter((unit) => unit.name.toLowerCase().includes(query));
+		return units.value.filter((unit) => {
+			const searchTarget = [unit.name, unit.address, unit.neighborhood, unit.city, unit.state]
+				.join(" ")
+				.toLowerCase();
+
+			return searchTarget.includes(query);
+		});
 	});
 
 	return {

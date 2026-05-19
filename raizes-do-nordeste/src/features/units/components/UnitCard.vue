@@ -6,17 +6,10 @@
 	>
 		<div class="unit-card__media">
 			<v-img
-				v-if="unit.image?.src"
 				:alt="unit.image.alt"
 				cover
 				:src="unit.image.src"
 				class="unit-card__image"
-			/>
-
-			<v-icon
-				v-else
-				icon="mdi-storefront-outline"
-				size="34"
 			/>
 		</div>
 
@@ -67,9 +60,9 @@ defineEmits<{
 <style scoped lang="scss">
 .unit-card {
 	display: flex;
-	gap: 16px;
+	gap: 14px;
 	align-items: center;
-	padding: 16px;
+	padding: 14px;
 	border-color: rgb(var(--color-ink-900-rgb, 25 25 25) / 0.14);
 
 	&__media {
@@ -77,8 +70,8 @@ defineEmits<{
 		flex-shrink: 0;
 		align-items: center;
 		justify-content: center;
-		width: 88px;
-		height: 88px;
+		width: 92px;
+		height: 92px;
 		overflow: hidden;
 		border: 1px solid rgb(var(--color-ink-900-rgb, 25 25 25) / 0.16);
 		border-radius: 12px;
@@ -92,7 +85,10 @@ defineEmits<{
 	}
 
 	&__content {
-		min-width: 0;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 6px;
 	}
 
 	&__header {
@@ -100,7 +96,6 @@ defineEmits<{
 		gap: 10px;
 		align-items: flex-start;
 		justify-content: space-between;
-		margin-bottom: 10px;
 	}
 
 	&__title,
@@ -112,7 +107,7 @@ defineEmits<{
 
 	&__title {
 		font-size: 1rem;
-		line-height: 1.25;
+		line-height: 1.2;
 		font-weight: 700;
 	}
 
@@ -123,11 +118,10 @@ defineEmits<{
 	&__address,
 	&__location {
 		font-size: 0.95rem;
-		line-height: 1.4;
+		line-height: 1.28;
 	}
 
 	&__location {
-		margin-top: 4px;
 		color: var(--color-stone-500);
 	}
 
@@ -136,7 +130,7 @@ defineEmits<{
 		gap: 12px;
 		align-items: center;
 		justify-content: space-between;
-		margin-top: 14px;
+		margin-top: 4px;
 	}
 
 	&__meta {
