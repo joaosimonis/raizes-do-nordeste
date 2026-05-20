@@ -40,6 +40,14 @@
 				</div>
 
 				<div
+					v-if="promotionalDiscountAmount > 0"
+					class="cart-page__summary-line"
+				>
+					<span>Desconto promocional:</span>
+					<span>- {{ formatValueToBRL(promotionalDiscountAmount) }}</span>
+				</div>
+
+				<div
 					v-if="enrollment.participate && loyaltyMemberFound"
 					class="cart-page__summary-line"
 				>
@@ -189,6 +197,7 @@ const {
 	openPrivacyDialog,
 	pendingRemoveItemName,
 	program,
+	promotionalDiscountAmount,
 	setLoyaltyParticipate,
 	setLoyaltyPhone,
 	showLoyaltyNotFoundMessage,

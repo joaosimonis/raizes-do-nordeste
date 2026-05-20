@@ -4,13 +4,15 @@ export type PaymentProvider = "uninterbank";
 
 export type PaymentStatus = "nao_iniciado" | "solicitado" | "aprovado" | "recusado";
 
-export enum PaymentFlowStep {
-	Selection = "selection",
-	CardInsert = "card_insert",
-	CardPin = "card_pin",
-	PixCode = "pix_code",
-	Success = "success",
-}
+export const PAYMENT_FLOW_STEP = {
+	SELECTION: "selection",
+	CARD_INSERT: "card_insert",
+	CARD_PIN: "card_pin",
+	PIX_CODE: "pix_code",
+	SUCCESS: "success",
+} as const;
+
+export type PaymentFlowStep = (typeof PAYMENT_FLOW_STEP)[keyof typeof PAYMENT_FLOW_STEP];
 
 export interface PaymentMethod {
 	id: PaymentMethodId;

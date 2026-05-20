@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/features/cart/store/cart.store";
 import { useLoyaltyStore } from "@/features/loyalty/store/loyalty.store";
+import { usePromotionsStore } from "@/features/promotions/store/promotions.store";
 import { usePrivacyStore } from "@/features/privacy/store/privacy.store";
 import type { PrivacyConsentId } from "@/features/privacy/types/privacy.types";
 
@@ -12,6 +13,7 @@ export const useCart = () => {
 	const router = useRouter();
 	const cartStore = useCartStore();
 	const loyaltyStore = useLoyaltyStore();
+	const promotionsStore = usePromotionsStore();
 	const privacyStore = usePrivacyStore();
 	const { items, totals } = storeToRefs(cartStore);
 	const { currentPoints, enrollment, identifiedMember, normalizedPhone, program } = storeToRefs(loyaltyStore);
@@ -26,6 +28,7 @@ export const useCart = () => {
 
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
+	const promotionalDiscountAmount = computed(() => promotionsStore.getDiscountAmountForCart(items.value, cartStore.unitId));
 	const acceptedConsentIds = computed(() => consentState.value.acceptedConsentIds);
 	const hasTypedLoyaltyPhone = computed(() => normalizedPhone.value.length >= 10);
 	const loyaltyMemberFound = computed(() => Boolean(identifiedMember.value));
@@ -38,7 +41,7 @@ export const useCart = () => {
 		return loyaltyStore.getDiscountPreview(totals.value.subtotal);
 	});
 	const loyaltyDiscountAmount = computed(() => loyaltyDiscountPreview.value?.discountAmount ?? 0);
-	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - loyaltyDiscountAmount.value, 0));
+	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - promotionalDiscountAmount.value - loyaltyDiscountAmount.value, 0));
 	const loyaltyDiscountMessage = computed(() => {
 		if (!loyaltyMemberFound.value) {
 			return "";
@@ -189,6 +192,7 @@ export const useCart = () => {
 		openPrivacyDialog,
 		pendingRemoveItemName,
 		program,
+		promotionalDiscountAmount,
 		removeItem,
 		setLoyaltyParticipate: loyaltyStore.setParticipate,
 		setLoyaltyPhone: loyaltyStore.setPhone,

@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia";
 import { computed, ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import { useMenuStore } from "@/features/menu/store/menu.store";
+import { usePromotionsStore } from "@/features/promotions/store/promotions.store";
 import { useUnitsStore } from "@/features/units/store/units.store";
 
 type MenuFilterCategory = MenuCategoryId | "todos";
@@ -10,6 +11,7 @@ type MenuFilterCategory = MenuCategoryId | "todos";
 export function useMenu() {
 	const route = useRoute();
 	const menuStore = useMenuStore();
+	const promotionsStore = usePromotionsStore();
 	const unitsStore = useUnitsStore();
 
 	const { categories, items } = storeToRefs(menuStore);
@@ -37,6 +39,7 @@ export function useMenu() {
 	});
 
 	const categoryOptions = computed(() => [{ id: "todos" as const, label: "Todos" }, ...categories.value]);
+	const activePromotions = computed(() => promotionsStore.getActivePromotionsByUnitId(selectedUnitId.value));
 
 	const filteredMenuItems = computed(() => {
 		const query = (search.value ?? "").trim().toLowerCase();
@@ -58,6 +61,7 @@ export function useMenu() {
 
 	return {
 		activeCategory,
+		activePromotions,
 		categoryOptions,
 		filteredMenuItems,
 		menuStore,

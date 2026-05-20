@@ -30,6 +30,14 @@
 		</div>
 
 		<div
+			v-if="promotionDiscount > 0"
+			class="payment-summary-card__line"
+		>
+			<span>Desconto promocional</span>
+			<span>- {{ formatValueToBRL(promotionDiscount) }}</span>
+		</div>
+
+		<div
 			v-if="loyaltyDiscount > 0"
 			class="payment-summary-card__line"
 		>
@@ -52,6 +60,7 @@ defineProps<{
 	deliveryFee: number;
 	items: CartItem[];
 	loyaltyDiscount: number;
+	promotionDiscount: number;
 	subtotal: number;
 	total: number;
 	totalItems: number;

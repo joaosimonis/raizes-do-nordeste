@@ -16,6 +16,7 @@
 				:delivery-fee="deliveryFee"
 				:items="items"
 				:loyalty-discount="loyaltyDiscountAmount"
+				:promotion-discount="promotionalDiscountAmount"
 				:subtotal="totals.subtotal"
 				:total="finalTotal"
 				:total-items="totals.totalItems"
@@ -134,6 +135,7 @@ const {
 	pageSubtitle,
 	pixCode,
 	pixSnackbarMessage,
+	promotionalDiscountAmount,
 	selectPaymentMethod,
 	selectedMethodId,
 	totals,

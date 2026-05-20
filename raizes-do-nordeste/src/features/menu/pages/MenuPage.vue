@@ -10,6 +10,17 @@
 			@cart="goToCart"
 		/>
 
+		<div
+			v-if="activePromotions.length"
+			class="menu-page__promotions"
+		>
+			<PromotionBanner
+				v-for="promotion in activePromotions"
+				:key="promotion.id"
+				:promotion="promotion"
+			/>
+		</div>
+
 		<v-text-field
 			v-model="search"
 			class="menu-page__search"
@@ -52,10 +63,11 @@ import type { MenuItem } from "@/features/menu/types/menu.types";
 import { useRouter } from "vue-router";
 import MenuItemCard from "@/features/menu/components/MenuItemCard.vue";
 import { useMenu } from "@/features/menu/composables/useMenu";
+import PromotionBanner from "@/features/promotions/components/PromotionBanner.vue";
 import AppHeader from "@/shared/components/AppHeader.vue";
 
 const router = useRouter();
-const { activeCategory, categoryOptions, filteredMenuItems, menuStore, search, selectedUnit, setActiveCategory } = useMenu();
+const { activeCategory, activePromotions, categoryOptions, filteredMenuItems, menuStore, search, selectedUnit, setActiveCategory } = useMenu();
 
 const openProductDetails = (item: MenuItem) => {
 	menuStore.setSelectedMenuItem(item.id);
@@ -87,6 +99,12 @@ const goToCart = () => {
 	}
 
 	&__search {
+		margin-bottom: 16px;
+	}
+
+	&__promotions {
+		display: grid;
+		gap: 12px;
 		margin-bottom: 16px;
 	}
 

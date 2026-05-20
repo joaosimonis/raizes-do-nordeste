@@ -5,7 +5,8 @@ import { useCartStore } from "@/features/cart/store/cart.store";
 import { useLoyaltyStore } from "@/features/loyalty/store/loyalty.store";
 import { useOrdersStore } from "@/features/orders/store/orders.store";
 import { usePaymentStore } from "@/features/payment/store/payment.store";
-import { PaymentFlowStep } from "@/features/payment/types/payment.types";
+import { PAYMENT_FLOW_STEP } from "@/features/payment/types/payment.types";
+import { usePromotionsStore } from "@/features/promotions/store/promotions.store";
 import type { PaymentMethodId } from "@/features/payment/types/payment.types";
 
 const DELIVERY_FEE = 8;
@@ -16,6 +17,7 @@ export const usePayment = () => {
 	const loyaltyStore = useLoyaltyStore();
 	const ordersStore = useOrdersStore();
 	const paymentStore = usePaymentStore();
+	const promotionsStore = usePromotionsStore();
 	const { items, totals } = storeToRefs(cartStore);
 	const { currentFlowStep, isInSelectionStep, methods, pixCode, selectedMethodId } = storeToRefs(paymentStore);
 	const { identifiedMember } = storeToRefs(loyaltyStore);
@@ -24,6 +26,7 @@ export const usePayment = () => {
 
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
+	const promotionalDiscountAmount = computed(() => promotionsStore.getDiscountAmountForCart(items.value, cartStore.unitId));
 	const loyaltyDiscountAmount = computed(() => {
 		if (!identifiedMember.value) {
 			return 0;
@@ -31,12 +34,12 @@ export const usePayment = () => {
 
 		return loyaltyStore.getDiscountPreview(totals.value.subtotal).discountAmount;
 	});
-	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - loyaltyDiscountAmount.value, 0));
+	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - promotionalDiscountAmount.value - loyaltyDiscountAmount.value, 0));
 	const canConfirmPayment = computed(() => hasItems.value && Boolean(selectedMethodId.value));
-	const isCardInsertStep = computed(() => currentFlowStep.value === PaymentFlowStep.CardInsert);
-	const isCardPinStep = computed(() => currentFlowStep.value === PaymentFlowStep.CardPin);
-	const isPixStep = computed(() => currentFlowStep.value === PaymentFlowStep.PixCode);
-	const isSuccessStep = computed(() => currentFlowStep.value === PaymentFlowStep.Success);
+	const isCardInsertStep = computed(() => currentFlowStep.value === PAYMENT_FLOW_STEP.CARD_INSERT);
+	const isCardPinStep = computed(() => currentFlowStep.value === PAYMENT_FLOW_STEP.CARD_PIN);
+	const isPixStep = computed(() => currentFlowStep.value === PAYMENT_FLOW_STEP.PIX_CODE);
+	const isSuccessStep = computed(() => currentFlowStep.value === PAYMENT_FLOW_STEP.SUCCESS);
 	const pageSubtitle = computed(() => {
 		if (isCardInsertStep.value) {
 			return "Siga as instruções do terminal para concluir o pagamento com cartão";
@@ -152,6 +155,7 @@ export const usePayment = () => {
 		pageSubtitle,
 		pixCode,
 		pixSnackbarMessage,
+		promotionalDiscountAmount,
 		selectedMethodId,
 		selectPaymentMethod: handlePaymentMethodClick,
 		totals,
