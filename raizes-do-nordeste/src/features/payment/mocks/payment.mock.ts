@@ -11,12 +11,10 @@ export const mockPaymentMethods: PaymentMethod[] = [
 		label: "Pix",
 		description: "Confirmação rápida após o envio para o provedor externo.",
 	},
-	{
-		id: "dinheiro",
-		label: "Dinheiro",
-		description: "Pagamento registrado para conferência no momento da retirada.",
-	},
 ];
+
+export const mockPixCode =
+	"00020126580014br.gov.bcb.pix01368199999999990216pagamento-raizes5204000053039865406103.4065802BR5920RAIZES DO NORDESTE6009SAO PAULO62070503***6304ABCD";
 
 export const mockPaymentRequest: PaymentRequest = {
 	amount: 38,

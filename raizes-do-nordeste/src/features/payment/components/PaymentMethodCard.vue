@@ -57,8 +57,6 @@ const icon = computed(() => {
 	if (props.method.id === "pix") {
 		return "mdi-qrcode-scan";
 	}
-
-	return "mdi-cash";
 });
 </script>
 

@@ -2,7 +2,7 @@
 	<v-container class="payment-page">
 		<AppHeader
 			class="payment-page__header"
-			subtitle="Revise os itens e escolha a forma de pagamento"
+			:subtitle="pageSubtitle"
 			show-back-button
 			title="Pagamento"
 			@back="goBack"
@@ -22,30 +22,74 @@
 			/>
 
 			<div class="payment-page__section">
-				<h2 class="payment-page__section-title">Formas de pagamento</h2>
+				<template v-if="isInSelectionStep">
+					<h2 class="payment-page__section-title">Formas de pagamento</h2>
 
-				<div class="payment-page__methods">
-					<PaymentMethodCard
-						v-for="method in methods"
-						:key="method.id"
-						:is-selected="selectedMethodId === method.id"
-						:method="method"
-						@select="selectPaymentMethod"
-					/>
-				</div>
+					<div class="payment-page__methods">
+						<PaymentMethodCard
+							v-for="method in methods"
+							:key="method.id"
+							:is-selected="selectedMethodId === method.id"
+							:method="method"
+							@select="selectPaymentMethod"
+						/>
+					</div>
+				</template>
+
+				<CardPaymentStep
+					v-else-if="isCardInsertStep"
+					action-text="Continuar"
+					description="Use o cartão físico ou a aproximação para simular o envio do pagamento ao terminal externo."
+					icon="mdi-credit-card-wireless-outline"
+					title="Insira ou aproxime o cartão"
+					@next="advancePaymentFlow"
+				/>
+
+				<CardPaymentStep
+					v-else-if="isCardPinStep"
+					action-text="Confirmar pagamento"
+					description="A senha é apenas ilustrativa neste protótipo, mas representa a etapa de autenticação antes da aprovação."
+					icon="mdi-dots-grid"
+					title="Digite a senha"
+					@next="advancePaymentFlow"
+				/>
+
+				<PixPaymentStep
+					v-else-if="isPixStep"
+					:pix-code="pixCode"
+					@copy="copyPixCode"
+					@next="advancePaymentFlow"
+				/>
+
+				<PaymentSuccessStep
+					v-else-if="isSuccessStep"
+					@finish="finishPayment"
+				/>
 			</div>
 
 			<v-btn
+				v-if="isInSelectionStep"
 				block
 				class="payment-page__action"
 				color="primary"
 				:disabled="!canConfirmPayment"
 				rounded="xl"
 				size="x-large"
-				text="Confirmar pagamento"
+				text="Continuar com o pagamento"
 				variant="flat"
-				@click="confirmPayment"
+				@click="goToSelectedPaymentFlow"
 			/>
+
+			<v-snackbar
+				v-model="isPixSnackbarVisible"
+				class="payment-page__snackbar"
+				color="info"
+				location="bottom"
+				rounded="pill"
+				timeout="3200"
+			>
+				{{ pixSnackbarMessage }}
+			</v-snackbar>
 		</div>
 
 		<v-alert
@@ -62,10 +106,38 @@
 <script setup lang="ts">
 import PaymentMethodCard from "@/features/payment/components/PaymentMethodCard.vue";
 import PaymentSummaryCard from "@/features/payment/components/PaymentSummaryCard.vue";
+import CardPaymentStep from "@/features/payment/steps/CardPaymentStep.vue";
+import PaymentSuccessStep from "@/features/payment/steps/PaymentSuccessStep.vue";
+import PixPaymentStep from "@/features/payment/steps/PixPaymentStep.vue";
 import { usePayment } from "@/features/payment/composables/usePayment";
 import AppHeader from "@/shared/components/AppHeader.vue";
 
-const { canConfirmPayment, confirmPayment, deliveryFee, finalTotal, goBack, hasItems, items, loyaltyDiscountAmount, methods, selectPaymentMethod, selectedMethodId, totals } = usePayment();
+const {
+	advancePaymentFlow,
+	canConfirmPayment,
+	copyPixCode,
+	deliveryFee,
+	finalTotal,
+	finishPayment,
+	goBack,
+	goToSelectedPaymentFlow,
+	hasItems,
+	isCardInsertStep,
+	isCardPinStep,
+	isInSelectionStep,
+	isPixSnackbarVisible,
+	isPixStep,
+	isSuccessStep,
+	items,
+	loyaltyDiscountAmount,
+	methods,
+	pageSubtitle,
+	pixCode,
+	pixSnackbarMessage,
+	selectPaymentMethod,
+	selectedMethodId,
+	totals,
+} = usePayment();
 </script>
 
 <style scoped lang="scss">
@@ -107,6 +179,10 @@ const { canConfirmPayment, confirmPayment, deliveryFee, finalTotal, goBack, hasI
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
+	}
+
+	:deep(.payment-page__snackbar) {
+		margin-bottom: 20px;
 	}
 
 	&__empty {

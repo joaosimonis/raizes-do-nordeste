@@ -1,10 +1,11 @@
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/features/cart/store/cart.store";
 import { useLoyaltyStore } from "@/features/loyalty/store/loyalty.store";
 import { useOrdersStore } from "@/features/orders/store/orders.store";
 import { usePaymentStore } from "@/features/payment/store/payment.store";
+import { PaymentFlowStep } from "@/features/payment/types/payment.types";
 import type { PaymentMethodId } from "@/features/payment/types/payment.types";
 
 const DELIVERY_FEE = 8;
@@ -16,8 +17,10 @@ export const usePayment = () => {
 	const ordersStore = useOrdersStore();
 	const paymentStore = usePaymentStore();
 	const { items, totals } = storeToRefs(cartStore);
-	const { methods, selectedMethodId } = storeToRefs(paymentStore);
+	const { currentFlowStep, isInSelectionStep, methods, pixCode, selectedMethodId } = storeToRefs(paymentStore);
 	const { identifiedMember } = storeToRefs(loyaltyStore);
+	const isPixSnackbarVisible = ref(false);
+	const pixSnackbarMessage = ref("Código Pix copiado.");
 
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
@@ -30,12 +33,52 @@ export const usePayment = () => {
 	});
 	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - loyaltyDiscountAmount.value, 0));
 	const canConfirmPayment = computed(() => hasItems.value && Boolean(selectedMethodId.value));
+	const isCardInsertStep = computed(() => currentFlowStep.value === PaymentFlowStep.CardInsert);
+	const isCardPinStep = computed(() => currentFlowStep.value === PaymentFlowStep.CardPin);
+	const isPixStep = computed(() => currentFlowStep.value === PaymentFlowStep.PixCode);
+	const isSuccessStep = computed(() => currentFlowStep.value === PaymentFlowStep.Success);
+	const pageSubtitle = computed(() => {
+		if (isCardInsertStep.value) {
+			return "Siga as instruções do terminal para concluir o pagamento com cartão";
+		}
 
-	const selectPaymentMethod = (methodId: PaymentMethodId) => {
+		if (isCardPinStep.value) {
+			return "Pagamento em andamento com cartão";
+		}
+
+		if (isPixStep.value) {
+			return "Use o código abaixo para simular o pagamento via Pix";
+		}
+
+		if (isSuccessStep.value) {
+			return "Pagamento concluído com sucesso";
+		}
+
+		return "Revise os itens e escolha a forma de pagamento";
+	});
+
+	const handlePaymentMethodClick = (methodId: PaymentMethodId) => {
+		if (selectedMethodId.value === methodId && isInSelectionStep.value) {
+			paymentStore.openSelectedMethodFlow();
+			return;
+		}
+
 		paymentStore.setSelectedMethod(methodId);
 	};
 
-	const confirmPayment = () => {
+	const goToSelectedPaymentFlow = () => {
+		if (!canConfirmPayment.value || !isInSelectionStep.value) {
+			return;
+		}
+
+		paymentStore.openSelectedMethodFlow();
+	};
+
+	const advancePaymentFlow = () => {
+		paymentStore.advanceFlowStep();
+	};
+
+	const finishPayment = () => {
 		if (!hasItems.value || !selectedMethodId.value) {
 			return;
 		}
@@ -59,28 +102,58 @@ export const usePayment = () => {
 			ordersStore.setCurrentOrder(paymentResponse.orderId);
 		}
 
+		paymentStore.resetPaymentFlow();
+
 		router.push({
 			name: "order-status",
 			params: { orderId: nextOrder.id },
 		});
 	};
 
+	const copyPixCode = async () => {
+		try {
+			await navigator.clipboard.writeText(pixCode.value);
+		} catch {
+			pixSnackbarMessage.value = "Código Pix pronto para uso no fluxo simulado.";
+		}
+
+		isPixSnackbarVisible.value = true;
+	};
+
 	const goBack = () => {
+		if (!isInSelectionStep.value) {
+			paymentStore.goBackFlowStep();
+			return;
+		}
+
 		router.back();
 	};
 
 	return {
+		advancePaymentFlow,
 		canConfirmPayment,
-		confirmPayment,
+		copyPixCode,
+		currentFlowStep,
 		deliveryFee,
 		finalTotal,
+		finishPayment,
 		goBack,
+		goToSelectedPaymentFlow,
 		hasItems,
 		items,
+		isCardInsertStep,
+		isCardPinStep,
+		isInSelectionStep,
+		isPixSnackbarVisible,
+		isPixStep,
+		isSuccessStep,
 		loyaltyDiscountAmount,
 		methods,
-		selectPaymentMethod,
+		pageSubtitle,
+		pixCode,
+		pixSnackbarMessage,
 		selectedMethodId,
+		selectPaymentMethod: handlePaymentMethodClick,
 		totals,
 	};
 };
