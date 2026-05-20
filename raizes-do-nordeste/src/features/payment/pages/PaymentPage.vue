@@ -22,64 +22,66 @@
 				:total-items="totals.totalItems"
 			/>
 
-			<div class="payment-page__section">
-				<template v-if="isInSelectionStep">
-					<h2 class="payment-page__section-title">Formas de pagamento</h2>
+			<div class="payment-page__main">
+				<div class="payment-page__section">
+					<template v-if="isInSelectionStep">
+						<h2 class="payment-page__section-title">Formas de pagamento</h2>
 
-					<div class="payment-page__methods">
-						<PaymentMethodCard
-							v-for="method in methods"
-							:key="method.id"
-							:is-selected="selectedMethodId === method.id"
-							:method="method"
-							@select="selectPaymentMethod"
-						/>
-					</div>
-				</template>
+						<div class="payment-page__methods">
+							<PaymentMethodCard
+								v-for="method in methods"
+								:key="method.id"
+								:is-selected="selectedMethodId === method.id"
+								:method="method"
+								@select="selectPaymentMethod"
+							/>
+						</div>
+					</template>
 
-				<CardPaymentStep
-					v-else-if="isCardInsertStep"
-					action-text="Continuar"
-					description="Use o cartão físico ou a aproximação para simular o envio do pagamento ao terminal externo."
-					icon="mdi-credit-card-wireless-outline"
-					title="Insira ou aproxime o cartão"
-					@next="advancePaymentFlow"
-				/>
+					<CardPaymentStep
+						v-else-if="isCardInsertStep"
+						action-text="Continuar"
+						description="Use o cartão físico ou a aproximação para simular o envio do pagamento ao terminal externo."
+						icon="mdi-credit-card-wireless-outline"
+						title="Insira ou aproxime o cartão"
+						@next="advancePaymentFlow"
+					/>
 
-				<CardPaymentStep
-					v-else-if="isCardPinStep"
-					action-text="Confirmar pagamento"
-					description="Digite sua senha para confirmar o pagamento."
-					icon="mdi-dots-grid"
-					title="Digite a senha"
-					@next="advancePaymentFlow"
-				/>
+					<CardPaymentStep
+						v-else-if="isCardPinStep"
+						action-text="Confirmar pagamento"
+						description="Digite sua senha para confirmar o pagamento."
+						icon="mdi-dots-grid"
+						title="Digite a senha"
+						@next="advancePaymentFlow"
+					/>
 
-				<PixPaymentStep
-					v-else-if="isPixStep"
-					:pix-code="pixCode"
-					@copy="copyPixCode"
-					@next="advancePaymentFlow"
-				/>
+					<PixPaymentStep
+						v-else-if="isPixStep"
+						:pix-code="pixCode"
+						@copy="copyPixCode"
+						@next="advancePaymentFlow"
+					/>
 
-				<PaymentSuccessStep
-					v-else-if="isSuccessStep"
-					@finish="finishPayment"
+					<PaymentSuccessStep
+						v-else-if="isSuccessStep"
+						@finish="finishPayment"
+					/>
+				</div>
+
+				<v-btn
+					v-if="isInSelectionStep"
+					block
+					class="payment-page__action"
+					color="primary"
+					:disabled="!canConfirmPayment"
+					rounded="xl"
+					size="x-large"
+					text="Continuar com o pagamento"
+					variant="flat"
+					@click="goToSelectedPaymentFlow"
 				/>
 			</div>
-
-			<v-btn
-				v-if="isInSelectionStep"
-				block
-				class="payment-page__action"
-				color="primary"
-				:disabled="!canConfirmPayment"
-				rounded="xl"
-				size="x-large"
-				text="Continuar com o pagamento"
-				variant="flat"
-				@click="goToSelectedPaymentFlow"
-			/>
 
 			<v-snackbar
 				v-model="isPixSnackbarVisible"
@@ -161,6 +163,12 @@ const {
 		gap: 26px;
 	}
 
+	&__main {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
 	&__section {
 		display: flex;
 		flex-direction: column;
@@ -208,12 +216,13 @@ const {
 			align-items: start;
 		}
 
-		&__section {
+		&__main {
 			grid-column: 2;
+			gap: 20px;
 		}
 
 		&__action {
-			grid-column: 2;
+			align-self: stretch;
 		}
 	}
 }

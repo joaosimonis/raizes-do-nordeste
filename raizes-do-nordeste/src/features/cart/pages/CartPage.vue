@@ -12,14 +12,27 @@
 			v-if="hasItems"
 			class="cart-page__content"
 		>
-			<div class="cart-page__list">
-				<CartItemCard
-					v-for="item in items"
-					:key="item.id"
-					:item="item"
-					@decrement="decrementItemQuantity"
-					@increment="incrementItemQuantity"
-					@remove="handleRemoveItem"
+			<div class="cart-page__main">
+				<div class="cart-page__list">
+					<CartItemCard
+						v-for="item in items"
+						:key="item.id"
+						:item="item"
+						@decrement="decrementItemQuantity"
+						@increment="incrementItemQuantity"
+						@remove="handleRemoveItem"
+					/>
+				</div>
+
+				<v-btn
+					block
+					class="cart-page__action"
+					color="primary"
+					rounded="xl"
+					size="x-large"
+					text="Continuar para pagamento"
+					variant="flat"
+					@click="goToPayment"
 				/>
 			</div>
 
@@ -103,16 +116,6 @@
 				</div>
 			</v-card>
 
-			<v-btn
-				block
-				class="cart-page__action"
-				color="primary"
-				rounded="xl"
-				size="x-large"
-				text="Continuar para pagamento"
-				variant="flat"
-				@click="goToPayment"
-			/>
 		</div>
 
 		<v-alert
@@ -226,6 +229,12 @@ const {
 		gap: 22px;
 	}
 
+	&__main {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
 	&__list {
 		display: grid;
 		gap: 14px;
@@ -327,9 +336,13 @@ const {
 			align-items: start;
 		}
 
-		&__list {
+		&__main {
 			grid-column: 1;
 			grid-row: 1 / span 4;
+			gap: 20px;
+		}
+
+		&__list {
 			gap: 16px;
 		}
 
@@ -338,7 +351,7 @@ const {
 		}
 
 		&__action {
-			grid-column: 2;
+			align-self: stretch;
 		}
 	}
 }
