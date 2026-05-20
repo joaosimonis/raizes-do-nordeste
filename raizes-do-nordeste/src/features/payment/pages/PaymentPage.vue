@@ -48,7 +48,7 @@
 				<CardPaymentStep
 					v-else-if="isCardPinStep"
 					action-text="Confirmar pagamento"
-					description="A senha é apenas ilustrativa neste protótipo, mas representa a etapa de autenticação antes da aprovação."
+					description="Digite sua senha para confirmar o pagamento."
 					icon="mdi-dots-grid"
 					title="Digite a senha"
 					@next="advancePaymentFlow"
