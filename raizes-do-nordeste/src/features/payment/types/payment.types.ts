@@ -35,9 +35,3 @@ export interface PaymentResponse {
 	provider: PaymentProvider;
 	status: PaymentStatus;
 }
-
-export interface PaymentScenario {
-	id: string;
-	label: string;
-	response: PaymentResponse;
-}

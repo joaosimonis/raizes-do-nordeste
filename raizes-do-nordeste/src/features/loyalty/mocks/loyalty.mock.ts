@@ -4,7 +4,6 @@ export const mockLoyaltyProgram: LoyaltyProgram = {
 	id: "loyalty-raizes",
 	name: "Raízes Premia",
 	description: "Programa de fidelidade da Raízes do Nordeste para acúmulo de pontos e aplicação de descontos no pedido.",
-	pointsPerReal: 1,
 	sections: [
 		{
 			id: "acumulo",

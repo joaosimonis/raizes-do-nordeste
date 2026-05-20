@@ -42,7 +42,6 @@ export const useLoyaltyStore = defineStore("loyalty", () => {
 		const discountAmount = appliedDiscountTier ? Number(((orderTotal * appliedDiscountTier.discountPercentage) / 100).toFixed(2)) : 0;
 
 		return {
-			currentPoints: currentPoints.value,
 			appliedDiscountTier,
 			discountAmount,
 		};

@@ -16,7 +16,6 @@ export interface LoyaltyProgram {
 	id: string;
 	name: string;
 	description: string;
-	pointsPerReal: number;
 	sections: LoyaltyProgramSection[];
 	discountTiers: LoyaltyDiscountTier[];
 }
@@ -33,7 +32,6 @@ export interface LoyaltyEnrollment {
 }
 
 export interface LoyaltyDiscountPreview {
-	currentPoints: number;
 	appliedDiscountTier: LoyaltyDiscountTier | null;
 	discountAmount: number;
 }

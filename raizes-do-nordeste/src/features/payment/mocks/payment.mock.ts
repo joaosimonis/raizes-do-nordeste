@@ -1,4 +1,4 @@
-import type { PaymentMethod, PaymentRequest, PaymentResponse, PaymentScenario } from "@/features/payment/types/payment.types";
+import type { PaymentMethod, PaymentResponse } from "@/features/payment/types/payment.types";
 
 export const mockPaymentMethods: PaymentMethod[] = [
 	{
@@ -16,13 +16,6 @@ export const mockPaymentMethods: PaymentMethod[] = [
 export const mockPixCode =
 	"00020126580014br.gov.bcb.pix01368199999999990216pagamento-raizes5204000053039865406103.4065802BR5920RAIZES DO NORDESTE6009SAO PAULO62070503***6304ABCD";
 
-export const mockPaymentRequest: PaymentRequest = {
-	amount: 38,
-	methodId: "pix",
-	orderId: "order-001",
-	provider: "uninterbank",
-};
-
 export const mockApprovedPaymentResponse: PaymentResponse = {
 	externalPaymentId: "pay-001",
 	message: "Pagamento aprovado pelo serviço externo.",
@@ -31,39 +24,3 @@ export const mockApprovedPaymentResponse: PaymentResponse = {
 	provider: "uninterbank",
 	status: "aprovado",
 };
-
-export const mockDeclinedPaymentResponse: PaymentResponse = {
-	externalPaymentId: "pay-002",
-	message: "Pagamento recusado pelo serviço externo.",
-	orderId: "order-001",
-	processedAt: "2026-05-19T09:31:00-03:00",
-	provider: "uninterbank",
-	status: "recusado",
-};
-
-export const mockRequestedPaymentResponse: PaymentResponse = {
-	externalPaymentId: "pay-003",
-	message: "Pagamento enviado para processamento externo.",
-	orderId: "order-001",
-	processedAt: "2026-05-19T09:29:00-03:00",
-	provider: "uninterbank",
-	status: "solicitado",
-};
-
-export const mockPaymentScenarios: PaymentScenario[] = [
-	{
-		id: "scenario-requested",
-		label: "Pagamento em processamento",
-		response: mockRequestedPaymentResponse,
-	},
-	{
-		id: "scenario-approved",
-		label: "Pagamento aprovado",
-		response: mockApprovedPaymentResponse,
-	},
-	{
-		id: "scenario-declined",
-		label: "Pagamento recusado",
-		response: mockDeclinedPaymentResponse,
-	},
-];
