@@ -95,6 +95,8 @@ const { advanceActionLabel, advanceOrderStep, canAdvanceCurrentOrder, currentOrd
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .order-status-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -196,6 +198,30 @@ const { advanceActionLabel, advanceOrderStep, canAdvanceCurrentOrder, currentOrd
 
 	&__empty {
 		margin-top: 8px;
+	}
+
+	@include desktop {
+		max-width: 980px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 28px;
+		}
+
+		&__content {
+			gap: 22px;
+		}
+
+		&__message {
+			max-width: 32ch;
+			font-size: 1.5rem;
+		}
+
+		&__steps {
+			max-width: 760px;
+			margin: 0 auto;
+			width: 100%;
+		}
 	}
 }
 </style>

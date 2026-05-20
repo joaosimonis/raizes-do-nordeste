@@ -208,6 +208,8 @@ const {
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .cart-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -308,6 +310,36 @@ const {
 
 	:deep(.cart-page__snackbar) {
 		margin-bottom: 20px;
+	}
+
+	@include desktop {
+		max-width: 1220px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 28px;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+			gap: 24px 28px;
+			align-items: start;
+		}
+
+		&__list {
+			grid-column: 1;
+			grid-row: 1 / span 4;
+			gap: 16px;
+		}
+
+		&__summary {
+			grid-column: 2;
+		}
+
+		&__action {
+			grid-column: 2;
+		}
 	}
 }
 </style>

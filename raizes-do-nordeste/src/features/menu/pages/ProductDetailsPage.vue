@@ -116,6 +116,8 @@ const handleAddToCart = () => {
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .product-details-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -174,6 +176,36 @@ const handleAddToCart = () => {
 
 	&__empty {
 		margin-top: 8px;
+	}
+
+	@include desktop {
+		max-width: 1180px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 24px;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-columns: minmax(360px, 460px) minmax(0, 1fr);
+			gap: 28px 32px;
+			align-items: start;
+		}
+
+		&__details {
+			grid-column: 2;
+		}
+
+		&__notes,
+		&__purchase {
+			grid-column: 2;
+		}
+
+		&__purchase {
+			gap: 20px;
+			padding-top: 0;
+		}
 	}
 }
 </style>

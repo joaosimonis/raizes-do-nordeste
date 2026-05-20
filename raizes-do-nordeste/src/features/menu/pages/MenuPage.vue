@@ -88,6 +88,8 @@ const goToCart = () => {
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .menu-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -128,6 +130,29 @@ const goToCart = () => {
 	&__list {
 		display: grid;
 		gap: 14px;
+	}
+
+	@include desktop {
+		max-width: 1180px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 24px;
+		}
+
+		&__promotions,
+		&__search {
+			margin-bottom: 20px;
+		}
+
+		&__categories {
+			margin-bottom: 24px;
+		}
+
+		&__list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 18px;
+		}
 	}
 }
 </style>

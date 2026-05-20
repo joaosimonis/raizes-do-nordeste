@@ -143,6 +143,8 @@ const {
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .payment-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -189,6 +191,30 @@ const {
 
 	&__empty {
 		margin-top: 8px;
+	}
+
+	@include desktop {
+		max-width: 1220px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 28px;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-columns: minmax(320px, 0.78fr) minmax(0, 1fr);
+			gap: 28px 32px;
+			align-items: start;
+		}
+
+		&__section {
+			grid-column: 2;
+		}
+
+		&__action {
+			grid-column: 2;
+		}
 	}
 }
 </style>

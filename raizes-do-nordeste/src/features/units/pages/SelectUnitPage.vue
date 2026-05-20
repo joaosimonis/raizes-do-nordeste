@@ -50,6 +50,8 @@ function handleSelectUnit(unit: Unit) {
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .select-unit-page {
 	min-height: 100vh;
 	max-width: 860px;
@@ -67,6 +69,24 @@ function handleSelectUnit(unit: Unit) {
 	&__list {
 		display: grid;
 		gap: 16px;
+	}
+
+	@include desktop {
+		max-width: 1120px;
+		padding: 28px 32px 40px;
+
+		&__header {
+			margin-bottom: 28px;
+		}
+
+		&__search {
+			margin-bottom: 24px;
+		}
+
+		&__list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 18px;
+		}
 	}
 }
 </style>

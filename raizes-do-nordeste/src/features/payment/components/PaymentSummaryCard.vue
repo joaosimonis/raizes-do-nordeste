@@ -68,6 +68,8 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .payment-summary-card {
 	display: flex;
 	flex-direction: column;
@@ -134,6 +136,10 @@ defineProps<{
 		font-size: 1.7rem;
 		line-height: 1.05;
 		font-weight: 800;
+	}
+
+	@include desktop {
+		padding: 22px;
 	}
 }
 </style>

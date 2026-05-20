@@ -29,6 +29,8 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .product-card {
 	display: flex;
 	align-items: center;
@@ -65,6 +67,21 @@ defineProps<{
 		color: var(--color-stone-600);
 		font-size: 0.98rem;
 		line-height: 1.55;
+	}
+
+	@include desktop {
+		min-height: 100%;
+		padding: 24px;
+
+		&__content {
+			max-width: 360px;
+			gap: 22px;
+		}
+
+		&__image {
+			width: 180px;
+			height: 180px;
+		}
 	}
 }
 </style>

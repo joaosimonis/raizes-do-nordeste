@@ -58,6 +58,8 @@ defineEmits<{
 </script>
 
 <style scoped lang="scss">
+@use "@/shared/styles/breakpoints" as *;
+
 .unit-card {
 	display: flex;
 	gap: 14px;
@@ -143,6 +145,19 @@ defineEmits<{
 		text-transform: none;
 		letter-spacing: 0;
 		font-weight: 700;
+	}
+
+	@include desktop {
+		padding: 16px;
+
+		&__media {
+			width: 96px;
+			height: 96px;
+		}
+
+		&__title {
+			font-size: 1.04rem;
+		}
 	}
 }
 </style>
