@@ -16,43 +16,45 @@
 		>
 			<ProductCard :item="selectedMenuItem" />
 
-			<div class="product-details-page__details">
-				<p class="product-details-page__price">{{ formatValueToBRL(selectedMenuItem.price) }}</p>
-			</div>
+			<div class="product-details-page__sidebar">
+				<div class="product-details-page__details">
+					<p class="product-details-page__price">{{ formatValueToBRL(selectedMenuItem.price) }}</p>
+				</div>
 
-			<div class="product-details-page__notes">
-				<p class="product-details-page__section-title">Observações</p>
+				<div class="product-details-page__notes">
+					<p class="product-details-page__section-title">Observações</p>
 
-				<v-textarea
-					v-model="notes"
-					auto-grow
-					class="product-details-page__notes-input"
-					hide-details
-					placeholder="Ex.: Sem cebola, sem pimenta."
-					rows="2"
-					rounded="lg"
-					variant="outlined"
-				/>
-			</div>
+					<v-textarea
+						v-model="notes"
+						auto-grow
+						class="product-details-page__notes-input"
+						hide-details
+						placeholder="Ex.: Sem cebola, sem pimenta."
+						rows="2"
+						rounded="lg"
+						variant="outlined"
+					/>
+				</div>
 
-			<div class="product-details-page__purchase">
-				<QuantitySelector
-					:disable-decrement="!canDecreaseQuantity"
-					:value="quantity"
-					@decrement="decreaseQuantity"
-					@increment="increaseQuantity"
-				/>
+				<div class="product-details-page__purchase">
+					<QuantitySelector
+						:disable-decrement="!canDecreaseQuantity"
+						:value="quantity"
+						@decrement="decreaseQuantity"
+						@increment="increaseQuantity"
+					/>
 
-				<v-btn
-					block
-					class="product-details-page__action"
-					color="primary"
-					rounded="xl"
-					size="x-large"
-					text="Adicionar ao carrinho"
-					variant="flat"
-					@click="handleAddToCart"
-				/>
+					<v-btn
+						block
+						class="product-details-page__action"
+						color="primary"
+						rounded="xl"
+						size="x-large"
+						text="Adicionar ao carrinho"
+						variant="flat"
+						@click="handleAddToCart"
+					/>
+				</div>
 			</div>
 		</div>
 
@@ -134,6 +136,12 @@ const handleAddToCart = () => {
 		gap: 20px;
 	}
 
+	&__sidebar {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
 	&__details {
 		display: flex;
 		flex-direction: column;
@@ -179,32 +187,52 @@ const handleAddToCart = () => {
 	}
 
 	@include desktop {
-		max-width: 1180px;
-		padding: 28px 32px 40px;
+		max-width: 1240px;
+		padding: 28px 40px 48px;
 
 		&__header {
 			margin-bottom: 24px;
 		}
 
 		&__content {
-			display: grid;
-			grid-template-columns: minmax(360px, 460px) minmax(0, 1fr);
-			gap: 28px 32px;
-			align-items: start;
+			flex-direction: row;
+			align-items: stretch;
+			gap: 40px;
+		}
+
+		&__content > :first-child {
+			flex: 0 1 520px;
+		}
+
+		&__sidebar {
+			flex: 1 1 0;
+			align-self: center;
+			width: 100%;
+			max-width: 560px;
+			min-width: 0;
+			gap: 24px;
 		}
 
 		&__details {
-			grid-column: 2;
+			gap: 8px;
 		}
 
-		&__notes,
-		&__purchase {
-			grid-column: 2;
+		&__price {
+			font-size: 3rem;
+			line-height: 0.95;
+		}
+
+		&__notes-input {
+			width: 100%;
 		}
 
 		&__purchase {
 			gap: 20px;
 			padding-top: 0;
+		}
+
+		&__action {
+			max-width: 100%;
 		}
 	}
 }
