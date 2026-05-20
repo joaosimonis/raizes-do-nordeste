@@ -39,11 +39,32 @@
 					<span>{{ formatValueToBRL(deliveryFee) }}</span>
 				</div>
 
+				<div
+					v-if="enrollment.participate && loyaltyMemberFound"
+					class="cart-page__summary-line"
+				>
+					<span>Desconto pelos pontos:</span>
+					<span>- {{ formatValueToBRL(loyaltyDiscountAmount) }}</span>
+				</div>
+
 				<div class="cart-page__summary-total">
 					<span>Total:</span>
 					<span>{{ formatValueToBRL(finalTotal) }}</span>
 				</div>
 			</v-card>
+
+			<LoyaltyEnrollmentCard
+				:current-points="currentPoints"
+				:discount-message="loyaltyDiscountMessage"
+				:has-typed-phone="hasTypedLoyaltyPhone"
+				:member-found="loyaltyMemberFound"
+				:participate="enrollment.participate"
+				:phone="enrollment.phone"
+				:show-not-found-message="showLoyaltyNotFoundMessage"
+				@open-info="openLoyaltyDialog"
+				@update:participate="setLoyaltyParticipate"
+				@update:phone="setLoyaltyPhone"
+			/>
 
 			<v-card
 				class="cart-page__privacy"
@@ -121,12 +142,19 @@
 		:terms="terms"
 		@accept="handlePrivacyAccept"
 	/>
+
+	<LoyaltyProgramDialog
+		v-model="isLoyaltyDialogVisible"
+		:program="program"
+	/>
 </template>
 
 <script setup lang="ts">
 import CartItemCard from "@/features/cart/components/CartItemCard.vue";
 import RemoveCartItemDialog from "@/features/cart/components/RemoveCartItemDialog.vue";
 import { useCart } from "@/features/cart/composables/useCart";
+import LoyaltyEnrollmentCard from "@/features/loyalty/components/LoyaltyEnrollmentCard.vue";
+import LoyaltyProgramDialog from "@/features/loyalty/components/LoyaltyProgramDialog.vue";
 import PrivacyTermsDialog from "@/features/privacy/components/PrivacyTermsDialog.vue";
 import AppHeader from "@/shared/components/AppHeader.vue";
 import { formatValueToBRL } from "@/shared/utils/formatCurrency";
@@ -136,8 +164,10 @@ const {
 	cancelRemoveItem,
 	confirmRemoveItem,
 	consentOptions,
+	currentPoints,
 	decrementItemQuantity,
 	deliveryFee,
+	enrollment,
 	finalTotal,
 	goBack,
 	goToPayment,
@@ -145,13 +175,23 @@ const {
 	handleRemoveItem,
 	hasAcceptedRequiredConsents,
 	hasItems,
+	hasTypedLoyaltyPhone,
 	incrementItemQuantity,
+	isLoyaltyDialogVisible,
 	isPrivacyDialogVisible,
 	isRemoveDialogVisible,
 	isSnackbarVisible,
 	items,
+	loyaltyDiscountAmount,
+	loyaltyDiscountMessage,
+	loyaltyMemberFound,
+	openLoyaltyDialog,
 	openPrivacyDialog,
 	pendingRemoveItemName,
+	program,
+	setLoyaltyParticipate,
+	setLoyaltyPhone,
+	showLoyaltyNotFoundMessage,
 	snackbarMessage,
 	terms,
 	totals,

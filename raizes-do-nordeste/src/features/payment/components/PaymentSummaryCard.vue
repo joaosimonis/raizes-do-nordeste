@@ -29,6 +29,14 @@
 			<span>{{ formatValueToBRL(deliveryFee) }}</span>
 		</div>
 
+		<div
+			v-if="loyaltyDiscount > 0"
+			class="payment-summary-card__line"
+		>
+			<span>Desconto pelos pontos</span>
+			<span>- {{ formatValueToBRL(loyaltyDiscount) }}</span>
+		</div>
+
 		<div class="payment-summary-card__total">
 			<span>Total do pedido</span>
 			<span>{{ formatValueToBRL(total) }}</span>
@@ -43,6 +51,7 @@ import { formatValueToBRL } from "@/shared/utils/formatCurrency";
 defineProps<{
 	deliveryFee: number;
 	items: CartItem[];
+	loyaltyDiscount: number;
 	subtotal: number;
 	total: number;
 	totalItems: number;

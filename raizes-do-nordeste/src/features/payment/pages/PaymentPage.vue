@@ -15,6 +15,7 @@
 			<PaymentSummaryCard
 				:delivery-fee="deliveryFee"
 				:items="items"
+				:loyalty-discount="loyaltyDiscountAmount"
 				:subtotal="totals.subtotal"
 				:total="finalTotal"
 				:total-items="totals.totalItems"
@@ -64,7 +65,7 @@ import PaymentSummaryCard from "@/features/payment/components/PaymentSummaryCard
 import { usePayment } from "@/features/payment/composables/usePayment";
 import AppHeader from "@/shared/components/AppHeader.vue";
 
-const { canConfirmPayment, confirmPayment, deliveryFee, finalTotal, goBack, hasItems, items, methods, selectPaymentMethod, selectedMethodId, totals } = usePayment();
+const { canConfirmPayment, confirmPayment, deliveryFee, finalTotal, goBack, hasItems, items, loyaltyDiscountAmount, methods, selectPaymentMethod, selectedMethodId, totals } = usePayment();
 </script>
 
 <style scoped lang="scss">

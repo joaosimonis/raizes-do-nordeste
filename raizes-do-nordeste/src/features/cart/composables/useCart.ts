@@ -2,6 +2,7 @@ import { storeToRefs } from "pinia";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/features/cart/store/cart.store";
+import { useLoyaltyStore } from "@/features/loyalty/store/loyalty.store";
 import { usePrivacyStore } from "@/features/privacy/store/privacy.store";
 import type { PrivacyConsentId } from "@/features/privacy/types/privacy.types";
 
@@ -10,10 +11,13 @@ const DELIVERY_FEE = 8;
 export const useCart = () => {
 	const router = useRouter();
 	const cartStore = useCartStore();
+	const loyaltyStore = useLoyaltyStore();
 	const privacyStore = usePrivacyStore();
 	const { items, totals } = storeToRefs(cartStore);
+	const { currentPoints, enrollment, identifiedMember, normalizedPhone, program } = storeToRefs(loyaltyStore);
 	const { consentOptions, consentState, hasAcceptedRequiredConsents, terms } = storeToRefs(privacyStore);
 	const isSnackbarVisible = ref(false);
+	const isLoyaltyDialogVisible = ref(false);
 	const snackbarMessage = ref("");
 	const isRemoveDialogVisible = ref(false);
 	const isPrivacyDialogVisible = ref(false);
@@ -22,8 +26,34 @@ export const useCart = () => {
 
 	const hasItems = computed(() => items.value.length > 0);
 	const deliveryFee = computed(() => (hasItems.value ? DELIVERY_FEE : 0));
-	const finalTotal = computed(() => totals.value.subtotal + deliveryFee.value);
 	const acceptedConsentIds = computed(() => consentState.value.acceptedConsentIds);
+	const hasTypedLoyaltyPhone = computed(() => normalizedPhone.value.length >= 10);
+	const loyaltyMemberFound = computed(() => Boolean(identifiedMember.value));
+	const showLoyaltyNotFoundMessage = computed(() => hasTypedLoyaltyPhone.value && !loyaltyMemberFound.value);
+	const loyaltyDiscountPreview = computed(() => {
+		if (!loyaltyMemberFound.value) {
+			return null;
+		}
+
+		return loyaltyStore.getDiscountPreview(totals.value.subtotal);
+	});
+	const loyaltyDiscountAmount = computed(() => loyaltyDiscountPreview.value?.discountAmount ?? 0);
+	const finalTotal = computed(() => Math.max(totals.value.subtotal + deliveryFee.value - loyaltyDiscountAmount.value, 0));
+	const loyaltyDiscountMessage = computed(() => {
+		if (!loyaltyMemberFound.value) {
+			return "";
+		}
+
+		if (!enrollment.value.participate) {
+			return "Ative a opção acima para aplicar o desconto disponível neste pedido.";
+		}
+
+		if (!loyaltyDiscountPreview.value?.appliedDiscountTier) {
+			return "Seu saldo atual ainda não libera desconto para este pedido.";
+		}
+
+		return `Desconto aplicado: ${loyaltyDiscountPreview.value.appliedDiscountTier.discountPercentage}% neste pedido.`;
+	});
 
 	const decrementItemQuantity = (cartItemId: string) => {
 		const item = items.value.find((entry) => entry.id === cartItemId);
@@ -101,6 +131,10 @@ export const useCart = () => {
 		router.back();
 	};
 
+	const openLoyaltyDialog = () => {
+		isLoyaltyDialogVisible.value = true;
+	};
+
 	const openPrivacyDialog = () => {
 		isPrivacyDialogVisible.value = true;
 	};
@@ -129,8 +163,10 @@ export const useCart = () => {
 		cancelRemoveItem,
 		closePrivacyDialog,
 		confirmRemoveItem,
+		currentPoints,
 		decrementItemQuantity,
 		deliveryFee,
+		enrollment,
 		finalTotal,
 		goBack,
 		goToPayment,
@@ -138,14 +174,25 @@ export const useCart = () => {
 		handlePrivacyAccept,
 		hasItems,
 		hasAcceptedRequiredConsents,
+		hasTypedLoyaltyPhone,
+		identifiedMember,
 		incrementItemQuantity,
+		isLoyaltyDialogVisible,
 		isPrivacyDialogVisible,
 		isRemoveDialogVisible,
 		isSnackbarVisible,
 		items,
+		loyaltyDiscountAmount,
+		loyaltyDiscountMessage,
+		loyaltyMemberFound,
+		openLoyaltyDialog,
 		openPrivacyDialog,
 		pendingRemoveItemName,
+		program,
 		removeItem,
+		setLoyaltyParticipate: loyaltyStore.setParticipate,
+		setLoyaltyPhone: loyaltyStore.setPhone,
+		showLoyaltyNotFoundMessage,
 		snackbarMessage,
 		consentOptions,
 		terms,
